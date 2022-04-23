@@ -1,7 +1,7 @@
 
 const express = require('express');
 const config = require('config');
-const router = require('./routes/ping.routes.js');
+const router = require('./routes/index');
 
 
 const app = express();
