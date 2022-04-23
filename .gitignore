@@ -1,5 +1,8 @@
 *.class
 
+
+ip.json
+
 # Package Files #
 *.jar
 *.war
