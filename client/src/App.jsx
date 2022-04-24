@@ -7,6 +7,7 @@ import './app.css';
 
 function App() {
   const [ip, setIp] = useState([]);
+  const [sorted, setSorted] = useState('asc');
 
   useEffect(() => {
     fetch('http://localhost:5000/api/ip')
@@ -33,9 +34,29 @@ function App() {
       });
   }
 
+  function sort(name, sort = 'asc') {
+    const sortIp = [...ip];
+
+    sortIp.sort(function(a, b) {
+      if (sort === 'asc') {
+        if (a[name] < b[name]) return -1;
+        if (a[name] > b[name]) return 1;
+      }
+
+      if (sort === 'desc') {
+        if (a[name] < b[name]) return 1;
+        if (a[name] > b[name]) return -1;
+      }
+
+      return 0 // Никакой сортировки
+    });
+
+    setIp(sortIp);
+  }
+
   return (
     <div className="">
-      <Table ip={ip} ping={ping}/>
+      <Table ip={ip} ping={ping} sort={sort} sorted={sorted} setSorted={setSorted}/>
     </div>
   );
 }

@@ -1,0 +1,13 @@
+.table__container {
+  width: 1080px;
+
+  margin: 10px auto;
+}
+
+.table__btn {
+  display: block;
+}
+
+.table {
+  width: 100%;
+}
