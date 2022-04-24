@@ -1,10 +1,9 @@
 
 const Router = require('express');
 const router = new Router();
-const ip = require('../ip.json');
+const getIpController = require('../controllers/getIpController');
+const ip = require('../../scripts/ip-data');
 
-router.get('/', (req, res) => {
-  res.json(ip);
-});
+router.get('/', getIpController.getIp);
 
 module.exports = router;
