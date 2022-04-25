@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Table from './components/Table/Table';
+import Upload from './components/Upload/Upload';
 import 'normalize.css';
 import './app.css';
 
@@ -8,13 +9,12 @@ import './app.css';
 function App() {
   const [ip, setIp] = useState([]);
   const [sorted, setSorted] = useState('asc');
+  const [ipTest, setipTest] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/ip')
       .then(res => res.json())
       .then(data => setIp(data));
-
-      console.log('useEffect');
   }, []);
 
   function ping() {
@@ -54,8 +54,29 @@ function App() {
     setIp(sortIp);
   }
 
+  function handleFiles(files) {
+    const result = [];
+
+    const reader = new FileReader();
+    reader.readAsText(files[0]);
+
+    reader.onload = function() {
+      reader.result.split('\r').forEach((item, i) => {
+        const el = item.split(';');
+
+        result.push({tel: el[0], name: el[1]});
+      });
+
+      setipTest(result);
+      //console.log(result);
+    };
+  }
+
+
   return (
     <div className="">
+      <Upload handleFiles={handleFiles} ipTest={ipTest}/>
+
       <Table ip={ip} ping={ping} sort={sort} sorted={sorted} setSorted={setSorted}/>
     </div>
   );
