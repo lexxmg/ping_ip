@@ -14,9 +14,16 @@ if (0) {
   storeData(ipNew, filePath);
 }
 
-class getIpController {
+class IpController {
   async getIp(req, res) {
     res.json(ip);
+  }
+
+  async setIp(req, res) {
+    //console.log(req);
+    if (req.file) {
+      res.json({"success": true})
+    }
   }
 }
 
@@ -37,4 +44,4 @@ function loadData(path) {
   }
 }
 
-module.exports = new getIpController;
+module.exports = new IpController;

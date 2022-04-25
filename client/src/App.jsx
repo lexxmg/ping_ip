@@ -72,10 +72,25 @@ function App() {
     };
   }
 
+  function upload(files) {
+    const data = new FormData();
+    data.append(ip, files)
+
+    fetch('http://localhost:5000/api/ip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    body: data
+  })
+    .then(res => res.text())
+    .then(data => console.log(data));
+  }
+
 
   return (
     <div className="">
-      <Upload handleFiles={handleFiles} ipTest={ipTest}/>
+      <Upload handleFiles={handleFiles} upload={upload} ipTest={ipTest}/>
 
       <Table ip={ip} ping={ping} sort={sort} sorted={sorted} setSorted={setSorted}/>
     </div>

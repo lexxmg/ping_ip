@@ -3,12 +3,14 @@ import React from 'react';
 import './upload.css';
 import ReactFileReader from 'react-file-reader';
 
-const Upload = ({handleFiles, ipTest}) => {
+const Upload = ({handleFiles, ipTest, upload}) => {
   return (
     <div className="upload">
-      <ReactFileReader fileTypes={".csv"} multipleFiles={true} handleFiles={handleFiles}>
+      <ReactFileReader fileTypes={".csv"} multipleFiles={true} handleFiles={upload}>
         <button className='btn'>Upload</button>
       </ReactFileReader>
+
+      <input onChange={e => {upload(e.target.files[0])}} type="file" name="ip" />
 
       <table>
         <thead>

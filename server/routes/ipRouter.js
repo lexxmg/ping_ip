@@ -1,9 +1,13 @@
 
 const Router = require('express');
 const router = new Router();
-const getIpController = require('../controllers/getIpController');
+const ipController = require('../controllers/ipController');
+const fileMiddleware = require('../middleware/file');
 const ip = require('../../scripts/ip-data');
 
-router.get('/', getIpController.getIp);
+//fileMiddleware.single('ip'),
+
+router.get('/', ipController.getIp);
+router.post('/', fileMiddleware.single('ip'), ipController.setIp);
 
 module.exports = router;
