@@ -1,8 +1,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const csvToJson = require('convert-csv-to-json');
+
 
 const filePath = path.join(__dirname, '../storage/ip.json');
+const pathCsvFile = path.join(__dirname, '../storage/ip.csv');
 //const ip = require('../../scripts/ip-data');
 const ip = JSON.parse( loadData(filePath) );
 
@@ -22,7 +25,7 @@ class IpController {
   async setIp(req, res) {
     //console.log(req);
     if (req.file) {
-      res.json({"success": true})
+      res.json( csvToJson.getJsonFromCsv(pathCsvFile) )
     }
   }
 }
