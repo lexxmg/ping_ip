@@ -73,8 +73,11 @@ function App() {
   }
 
   function upload(files) {
-    const data = new FormData();
-    data.append(ip, files)
+    let data = new FormData();
+    //data.append(ip, files);
+    data.append('test', 'test');
+
+    console.log(data.test);
 
     fetch('http://localhost:5000/api/ip', {
       method: 'POST',
