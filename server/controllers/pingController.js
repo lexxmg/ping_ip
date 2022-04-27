@@ -4,9 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 const filePath = path.join(__dirname, '../storage/ip.json');
-//const ip = require('../../scripts/ip-data');
 
-const ip = JSON.parse( loadData(filePath) );
+if ( loadData(filePath) ) {
+  const ip = JSON.parse( loadData(filePath) );
+} else {
+  const ip = [];
+}
 
 const date = new Date();
 const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
