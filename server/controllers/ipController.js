@@ -30,10 +30,10 @@ class IpController {
     const id = req.params.id;
     const sw = req.body.sw || null;
     const port = req.body.port || null;
-    const speed = req.body.speed || null;
+    const speed = req.body.speed || '100-kb/s';
     const office = req.body.office || null;
     const name = req.body.name || null;
-    const active = req.body.active || null;
+    const active = req.body.active || false;
 
     const ipNew = ip.map(item => {
       if (item.id == id) {

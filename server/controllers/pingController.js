@@ -5,10 +5,12 @@ const path = require('path');
 
 const filePath = path.join(__dirname, '../storage/ip.json');
 
+let ip;
+
 if ( loadData(filePath) ) {
-  const ip = JSON.parse( loadData(filePath) );
+  ip = JSON.parse( loadData(filePath) );
 } else {
-  const ip = [];
+  ip = [];
 }
 
 const date = new Date();
@@ -43,9 +45,10 @@ class PingController {
               return;
           }
 
-          result = [...result, {...item, description: 'доступен', stat: true}];
+          result = [...result, {...item, ping: true}];
 
-          item.wasActive = {stat: true, date: formDate};
+          item.wasActivePing = true;
+          item.wasActiveDate = formDate;
 
           if (result.length === ip.length) {
             storeData(ip, filePath);
