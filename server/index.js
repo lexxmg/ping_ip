@@ -5,6 +5,7 @@ const router = require('./routes/index');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
+const errorHandler = require('./middleware/errorHandlingMiddleware');
 
 const app = express();
 const PORT = config.get('serverPort');
@@ -17,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true })) // parse application/x-www-fo
 app.use(bodyParser.json()) // parse application/json
 
 app.use('/api', router);
+
+app.use(errorHandler);
 
 const start = () => {
   try {
