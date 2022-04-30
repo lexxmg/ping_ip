@@ -5,8 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 let users = [
-  {id: 1, user: 'lexx', password: '123', role: 'ADMIN'},
-  {id: 2, user: 'kati', password: '1234', role: 'USER'}
+  {id: 1, user: 'admin', password: '1234', role: 'ADMIN'}
 ];
 
 class UserController {
@@ -38,9 +37,17 @@ class UserController {
 
     const nashPassword = await bcrypt.hash(password, 4);
 
-    users = [...users, {id: 3, user, nashPassword, role}];
+    let nextId = 0;
 
-    const token = jwt.sign({id: 3, user, role}, config.get('SECRET_KEY'), {expiresIn: '24h'});
+    users.forEach((item, i) => {
+      if (nextId < item.id) {
+        nextId = item.id;
+      }
+    });
+
+    users = [...users, {id: nextId + 1, user, nashPassword, role}];
+
+    const token = jwt.sign({id: nextId + 1, user, role}, config.get('SECRET_KEY'), {expiresIn: '24h'});
 
     console.log(users);
     res.json(token);
@@ -58,6 +65,18 @@ class UserController {
     } else {
       res.json({id: id});
     }
+  }
+
+  _createMaxId(arr) {
+    let max = 0;
+
+    arr.forEach((item, i) => {
+      if (max < item.id) {
+        max = item.id;
+      }
+    });
+
+    return max;
   }
 }
 
