@@ -11,6 +11,21 @@ let users = [
 
 class UserController {
   async registration(req, res, next) {
+    try {
+      const {key} = req.query;
+      const decoded = jwt.verify(key, config.get('SECRET_KEY'));
+
+      if (!key) {
+        return next( ApiError.badRequest('Нет токена') );
+      }
+
+      if (decoded) {
+        console.log('Регистрация возможна');
+      }
+    } catch (e) {
+      return next( ApiError.badRequest('Токен не действителен') );
+    }
+
     const {user, password, role} = req.body;
 
     if (!user || !password) {
@@ -26,12 +41,8 @@ class UserController {
     users = [...users, {id: 3, user, nashPassword, role}];
 
     const token = jwt.sign({id: 3, user, role}, config.get('SECRET_KEY'), {expiresIn: '24h'});
+
     console.log(users);
-    const tokenErr = token + '1';
-
-    const decoded = jwt.verify(token, config.get('SECRET_KEY'));
-    console.log(decoded);
-
     res.json(token);
   }
 
