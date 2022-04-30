@@ -27,6 +27,11 @@ class UserController {
 
     const token = jwt.sign({id: 3, user, role}, config.get('SECRET_KEY'), {expiresIn: '24h'});
     console.log(users);
+    const tokenErr = token + '1';
+
+    const decoded = jwt.verify(token, config.get('SECRET_KEY'));
+    console.log(decoded);
+
     res.json(token);
   }
 
