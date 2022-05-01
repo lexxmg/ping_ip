@@ -6,6 +6,7 @@ const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const errorHandler = require('./middleware/errorHandlingMiddleware');
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 const PORT = config.get('serverPort');
@@ -16,6 +17,8 @@ app.use('/storage', express.static( path.join(__dirname, 'storage') ) ); // по
 
 app.use(bodyParser.urlencoded({ extended: true })) // parse application/x-www-form-urlencoded
 app.use(bodyParser.json()) // parse application/json
+
+app.use(authMiddleware);
 
 app.use('/api', router);
 
