@@ -1,12 +1,21 @@
 
 const ApiError = require('../error/apiError');
+const fs = require('fs');
+const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-let users = [
-  {id: 1, user: 'admin', password: '1234', role: 'ADMIN'}
-];
+const pathUsers = path.join(__dirname, '../storage/users.json');
+
+let users;
+
+if ( loadData(pathUsers) ) {
+  users = JSON.parse( loadData(pathUsers) );
+} else {
+  users = [{id: 1, user: 'admin', password: '1234', role: 'ADMIN'}];
+}
+
 
 class UserController {
   async registration(req, res, next) {
@@ -45,38 +54,70 @@ class UserController {
       }
     });
 
-    users = [...users, {id: nextId + 1, user, nashPassword, role}];
+    users = [...users, {id: nextId + 1, user, nashPassword, role: role ? role : 'USER'}];
+    storeData(users, pathUsers);
 
-    const token = jwt.sign({id: nextId + 1, user, role}, config.get('SECRET_KEY'), {expiresIn: '24h'});
+    const token = generateJwt(nextId + 1, user, role);
 
-    console.log(users);
-    res.json(token);
+    res.json({token});
   }
 
-  login(req, res) {
-    res.json({message: 'login'});
+  login(req, res, next) {
+    const {user, password} = req.body;
+
+    const currentUser = users.find(item => item.user === user);
+    console.log(currentUser.id);
+
+    if ( !currentUser ) {
+      return next(ApiError.internal('Логин или пароль не действителен!'));
+    }
+
+    let comparePassword = bcrypt.compareSync(password, currentUser.nashPassword);
+
+    if (!comparePassword) {
+      return next(ApiError.internal('Логин или пароль не действителен!'));
+    }
+
+    const token = generateJwt(currentUser.id, currentUser.user, currentUser.role);
+
+    res.json({token});
   }
 
   check(req, res, next) {
-    const {id} = req.query;
+    const {id, user, role} = req.user;
+    console.log(req.user);
+    const token = generateJwt(id, user, role);
 
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
-    } else {
-      res.json({id: id});
-    }
+    res.json({token});
   }
+}
 
-  _createMaxId(arr) {
-    let max = 0;
+function generateJwt(id, user, role = 'USER') {
+  return jwt.sign(
+    {
+      id: id, user: user, role: role
+    },
+      config.get('SECRET_KEY'),
+    {
+      expiresIn: '24h'
+    }
+  );
+}
 
-    arr.forEach((item, i) => {
-      if (max < item.id) {
-        max = item.id;
-      }
-    });
+function storeData(data, path) {
+  try {
+    fs.writeFileSync(path, JSON.stringify(data));
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-    return max;
+function loadData(path) {
+  try {
+    return fs.readFileSync(path, 'utf8');
+  } catch (err) {
+    console.error(err)
+    return false
   }
 }
 
