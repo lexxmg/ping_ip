@@ -10,11 +10,16 @@ const pathUsers = path.join(__dirname, '../storage/users.json');
 
 let users;
 
-if ( loadData(pathUsers) ) {
-  users = JSON.parse( loadData(pathUsers) );
-} else {
-  users = [{id: 1, user: 'admin', password: '1234', role: 'ADMIN'}];
-}
+(async function() {
+  if ( loadData(pathUsers) ) {
+    users = JSON.parse( loadData(pathUsers) );
+  } else {
+    const nashPassword = await bcrypt.hash('1234', 4);
+
+    users = [{id: 1, user: 'admin', nashPassword: nashPassword, role: 'ADMIN'}];
+  }
+  console.log(users);
+}());
 
 
 class UserController {
@@ -89,6 +94,25 @@ class UserController {
     const token = generateJwt(id, user, role);
 
     res.json({token});
+  }
+
+  getUser(req, res) {
+    res.json(users);
+  }
+
+  editUser(req, res) {
+
+  }
+
+  deleteUser(req, res) {
+    const id = req.params.id;
+
+    const newArray = users.filter(item => {
+      return (item.id != id);
+    });
+
+    storeData(newArray, pathUsers);
+    res.json( JSON.parse( loadData(pathUsers) ) );
   }
 }
 

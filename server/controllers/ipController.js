@@ -34,10 +34,10 @@ class IpController {
     const office = req.body.office || null;
     const name = req.body.name || null;
     const active = req.body.active || false;
-
+    
     const ipNew = ip.map(item => {
       if (item.id == id) {
-        return {...item, sw, port, speed, office, name, active}
+        return {...item, sw, port, speed, office, name, active, manager: req.user.user, dateEdit: new Date()}
       }
 
       return item;
@@ -64,6 +64,8 @@ class IpController {
         if (item.wasActivePing === 'false') item.wasActivePing = false;
         if (item.wasActivePing === 'true') item.wasActivePing = true;
         if (item.wasActiveDate === 'null') item.wasActiveDate = null;
+        if (item.manager === 'null') item.manager = null;
+        if (item.dateEdit === 'null') item.dateEdit = null;
 
         return item;
       });

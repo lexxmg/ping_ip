@@ -4,9 +4,10 @@ const router = new Router();
 const ipController = require('../controllers/ipController');
 const fileMiddleware = require('../middleware/file');
 const checkRoleMiddleware = require('../middleware/checkRoleMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/:id?', ipController.getIp);
-router.put('/:id', checkRoleMiddleware('ADMIN'), ipController.editIp);
-router.post('/', fileMiddleware.single('ip'), ipController.setIp);
+router.get('/:id?', authMiddleware, ipController.getIp);
+router.put('/:id', checkRoleMiddleware(['ADMIN', 'MANAGER']), ipController.editIp);
+router.post('/', checkRoleMiddleware('ADMIN'), fileMiddleware.single('ip'), ipController.setIp);
 
 module.exports = router;

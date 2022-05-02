@@ -17,8 +17,20 @@ module.exports = function(role) {
 
       const decoded = jwt.verify(token, config.get('SECRET_KEY'));
 
-      if (decoded.role !== role) {
-        return res.status(403).json({message: 'Нет доступа'});
+      if ( Array.isArray(role) ) {
+        const result = [];
+
+        role.forEach((item, i) => {
+          result.push(decoded.role === item);
+        });
+        
+        if ( !result.some(item => item) ) {
+          return res.status(403).json({message: 'Нет доступа'});
+        }
+      } else {
+        if (decoded.role !== role) {
+          return res.status(403).json({message: 'Нет доступа'});
+        }
       }
 
       req.user = decoded;
