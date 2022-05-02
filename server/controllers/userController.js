@@ -18,7 +18,6 @@ let users;
 
     users = [{id: 1, user: 'admin', nashPassword: nashPassword, role: 'ADMIN'}];
   }
-  console.log(users);
 }());
 
 
@@ -71,7 +70,6 @@ class UserController {
     const {user, password} = req.body;
 
     const currentUser = users.find(item => item.user === user);
-    console.log(currentUser.id);
 
     if ( !currentUser ) {
       return next(ApiError.internal('Логин или пароль не действителен!'));
@@ -90,7 +88,6 @@ class UserController {
 
   check(req, res, next) {
     const {id, user, role} = req.user;
-    console.log(req.user);
     const token = generateJwt(id, user, role);
 
     res.json({token});
@@ -100,8 +97,25 @@ class UserController {
     res.json(users);
   }
 
-  editUser(req, res) {
+  async editUser(req, res) {
+    const {id, password, role} = req.body;
 
+    if (!password) {
+      return next(ApiError.badRequest('Поле пароль ен может быть пустым'));
+    }
+
+    const nashPassword = await bcrypt.hash(password, 4);
+
+    users.forEach((item, i) => {
+      if (item.id == id) {
+        item.nashPassword = nashPassword;
+        item.role = role;
+      }
+    });
+  
+    storeData(users, pathUsers);
+
+    res.json({message: 'success'});
   }
 
   deleteUser(req, res) {
