@@ -1,5 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './components/AppRouter';
 import Table from './components/Table/Table';
 import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -93,11 +95,16 @@ function App() {
 
   return (
     <div className="">
-      <Upload handleFiles={handleFiles} upload={upload} ipTest={ipTest}/>
-
-      <Table ip={ip} ping={ping} sort={sort} sorted={sorted} setSorted={setSorted}/>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
     </div>
   );
 }
 
 export default App;
+
+
+//<Upload handleFiles={handleFiles} upload={upload} ipTest={ipTest}/>
+
+//<Table ip={ip} ping={ping} sort={sort} sorted={sorted} setSorted={setSorted}/>
