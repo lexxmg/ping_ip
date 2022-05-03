@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Routes, Route, Redirect } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import Registration from '../pages/registration/Registration';
 import Auth from '../pages/auth/Auth';
@@ -16,6 +16,8 @@ const AppRouter = () => {
       <Route path={LOGIN_ROUTE} element={<Auth />} exact/>
 
       <Route path={REGISTRATION_ROUTE} element={<Registration />} exact/>
+
+      <Route path="*" element={<Navigate to={LOGIN_ROUTE} />} />
     </Routes>
   )
 }
