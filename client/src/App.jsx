@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
-import Table from './components/Table/Table';
-import Upload from './components/Upload/Upload';
+import Api from './API/api';
+//import Table from './components/Table/Table';
+//import Upload from './components/Upload/Upload';
 import 'normalize.css';
 import './app.css';
 
@@ -14,9 +16,13 @@ function App() {
   const [ipTest, setipTest] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/ip')
-      .then(res => res.json())
-      .then(data => setIp(data));
+    Api.auth('lexx', '123')
+      .then(res => {
+        localStorage.setItem('token', res.token);
+        console.log(jwt_decode(res.token));
+      });
+
+    Api.check().then(res => console.log(res))  
   }, []);
 
   function ping() {
