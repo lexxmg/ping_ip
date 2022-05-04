@@ -16,14 +16,24 @@ function App() {
   const [ipTest, setipTest] = useState([]);
 
   useEffect(() => {
-    Api.auth('lexx', '123')
-      .then(res => {
-        localStorage.setItem('token', res.token);
-        console.log(jwt_decode(res.token));
-      });
+    //auth('lexx', '123');
 
-    Api.check().then(res => console.log(res))  
+    Api.check().then(res => console.log(res));
   }, []);
+
+  async function auth(name, password) {
+    try {
+      const response = await Api.auth(name, password);
+
+      localStorage.setItem('token', response.token);
+      console.log(jwt_decode(response.token));
+
+      return response;
+    } catch (e) {
+      //console.log(e);
+      return e.response.data;
+    }
+  }
 
   function ping() {
     fetch('http://localhost:5000/api/ping')
@@ -102,7 +112,7 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
-        <AppRouter />
+        <AppRouter auth={auth} />
       </BrowserRouter>
     </div>
   );
