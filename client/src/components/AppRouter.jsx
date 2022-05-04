@@ -6,14 +6,13 @@ import Registration from '../pages/registration/Registration';
 import Auth from '../pages/auth/Auth';
 import Admin from '../pages/admin/Admin';
 
-const AppRouter = ({auth}) => {
-  const isAuth = false;
-
+const AppRouter = ({auth, setUser, isAuth, setIsAuth}) => {
+  console.log(isAuth);
   return (
     <Routes>
       {isAuth && <Route path={ADMIN_ROUTE} element={<Admin />} exact/>}
 
-      <Route path={LOGIN_ROUTE} element={<Auth auth={auth} />} exact/>
+      <Route path={LOGIN_ROUTE} element={<Auth auth={auth} setUser={setUser} setIsAuth={setIsAuth} />} exact/>
 
       <Route path={REGISTRATION_ROUTE} element={<Registration />} exact/>
 

@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 const $authHost = axios.create({
   baseURL: 'http://localhost:5000'
@@ -10,23 +11,32 @@ const $host = axios.create({
 });
 
 const authInterceptor = config => {
-  config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+  config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
 
   return config;
 }
 
 $authHost.interceptors.request.use(authInterceptor);
 
-export default class Api {
-  static async auth(name, password) {
+
+export const auth = async (name, password) => {
+  try {
     const response = await $host.post('/api/login', {user: name, password: password});
 
-    return response.data;
+    localStorage.setItem('token', response.data.token);
+    return jwt_decode(response.data.token);
+  } catch (e) {
+    return e.response.data;
   }
+}
 
-  static async check() {
+export const check = async () => {
+  try {
     const response = await $authHost.get('/api/auth');
 
-    return response.data;
+    localStorage.setItem('token', response.data.token);
+    return jwt_decode(response.data.token);
+  } catch (e) {
+    return e.response.data;
   }
 }

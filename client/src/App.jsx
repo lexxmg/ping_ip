@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, NavLink } from 'react-router-dom';
+import { ADMIN_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
-import Api from './API/api';
+import { auth, check } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -14,26 +15,19 @@ function App() {
   const [ip, setIp] = useState([]);
   const [sorted, setSorted] = useState('asc');
   const [ipTest, setipTest] = useState([]);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    //auth('lexx', '123');
-
-    Api.check().then(res => console.log(res));
+    check().then(data => {
+      if (data.message !== 'Пользователь не авторизован') {
+        console.log(data);
+        setUser(data);
+        setIsAuth(true);
+      }
+    });
   }, []);
-
-  async function auth(name, password) {
-    try {
-      const response = await Api.auth(name, password);
-
-      localStorage.setItem('token', response.token);
-      console.log(jwt_decode(response.token));
-
-      return response;
-    } catch (e) {
-      //console.log(e);
-      return e.response.data;
-    }
-  }
 
   function ping() {
     fetch('http://localhost:5000/api/ping')
@@ -111,8 +105,13 @@ function App() {
 
   return (
     <div className="">
+      <span>{user.user}</span>
+      <span>{user.role}</span>
+
       <BrowserRouter>
-        <AppRouter auth={auth} />
+        <NavLink to={ADMIN_ROUTE} >Admin</NavLink>
+
+        <AppRouter auth={auth} setUser={setUser} setIsAuth={setIsAuth} isAuth={isAuth}/>
       </BrowserRouter>
     </div>
   );

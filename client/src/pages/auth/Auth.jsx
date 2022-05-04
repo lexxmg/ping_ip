@@ -3,7 +3,7 @@ import './auth.css';
 import React from 'react';
 import { useFormik } from 'formik';
 
-const Auth = ({auth}) => {
+const Auth = ({auth, setUser, setIsAuth}) => {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -11,11 +11,12 @@ const Auth = ({auth}) => {
     },
     onSubmit: values => {
       auth(values.name, values.password)
-        .then(res => {
-          console.log(res);
+        .then(data => {
+          setUser(data);
 
-          if (!res.message) {
+          if (!data.message) {
             formik.handleReset();
+            setIsAuth(true);
           }
         });
     }
