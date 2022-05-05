@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
-import { BrowserRouter, NavLink } from 'react-router-dom';
-import { ADMIN_ROUTE } from './utils/consts';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
+import Preloader from './components/Preloader/Preloader';
+import Header from './components/Header/Header';
 import { auth, check } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
@@ -19,15 +21,35 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     check().then(data => {
-      if (data.message !== 'Пользователь не авторизован') {
+      if (!data.message) {
         console.log(data);
         setUser(data);
         setIsAuth(true);
+        navigate(TABLE_ROUTE);
       }
-    });
+    }).finally(() => setLoading(false));
   }, []);
+
+  async function login(name, password) {
+    auth(name, password).then(data => {
+      if (!data.message) {
+        console.log(data);
+        setUser(data);
+        setIsAuth(true);
+        navigate(TABLE_ROUTE);
+      }
+    }).finally(() => setLoading(false));
+  }
+
+  function logout() {
+    setIsAuth(false);
+    localStorage.removeItem('token');
+    navigate(LOGIN_ROUTE);
+  }
 
   function ping() {
     fetch('http://localhost:5000/api/ping')
@@ -102,17 +124,16 @@ function App() {
     .then(data => console.log(data));
   }
 
+  if (loading) {
+    return <Preloader/>
+  }
+
 
   return (
     <div className="">
-      <span>{user.user}</span>
-      <span>{user.role}</span>
+      {isAuth && <Header user={user} logout={logout}/>}
 
-      <BrowserRouter>
-        <NavLink to={ADMIN_ROUTE} >Admin</NavLink>
-
-        <AppRouter auth={auth} setUser={setUser} setIsAuth={setIsAuth} isAuth={isAuth}/>
-      </BrowserRouter>
+      <AppRouter login={login} isAuth={isAuth} ip={ip}/>
     </div>
   );
 }

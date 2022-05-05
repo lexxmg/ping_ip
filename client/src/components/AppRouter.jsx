@@ -1,22 +1,24 @@
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, TABLE_ROUTE} from '../utils/consts';
 import Registration from '../pages/registration/Registration';
 import Auth from '../pages/auth/Auth';
 import Admin from '../pages/admin/Admin';
+import Table from '../pages/table/Table';
 
-const AppRouter = ({auth, setUser, isAuth, setIsAuth}) => {
-  console.log(isAuth);
+const AppRouter = ({login, isAuth, ip}) => {
   return (
     <Routes>
       {isAuth && <Route path={ADMIN_ROUTE} element={<Admin />} exact/>}
 
-      <Route path={LOGIN_ROUTE} element={<Auth auth={auth} setUser={setUser} setIsAuth={setIsAuth} />} exact/>
+      <Route path={LOGIN_ROUTE} element={<Auth login={login} />} exact/>
 
       <Route path={REGISTRATION_ROUTE} element={<Registration />} exact/>
 
-      <Route path="*" element={<Navigate to={LOGIN_ROUTE} />} />
+      {isAuth && <Route path={TABLE_ROUTE} element={<Table ip={ip}/>} exact/>}
+
+      <Route path="*" element={<Navigate to={isAuth ? TABLE_ROUTE : LOGIN_ROUTE} />} />
     </Routes>
   )
 }
