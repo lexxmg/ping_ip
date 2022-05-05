@@ -12,7 +12,7 @@ class GetRegistrationController {
         exp: Math.floor(Date.now() / 1000) + (60 * 5)
       }, config.get('SECRET_KEY'));
 
-    res.json({link: `localhost:5000/api/registration?key=${token}`});
+    res.json({link: `localhost:5000/api/registration?key=${token}`, token});
   }
 }
 

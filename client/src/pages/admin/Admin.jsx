@@ -2,12 +2,12 @@
 import './admin.css';
 import React from 'react';
 
-const Admin = ({getRegistration, linkRegistration}) => {
+const Admin = ({getRegistrationToken, registrationToken}) => {
   return (
     <div className="admin-container">
-      <button onClick={getRegistration}>Получить ссыдку на регестрацию</button>
+      <button onClick={getRegistrationToken}>Получить ссыдку на регестрацию</button>
 
-      <p>{`localhost:3000/registration?key=${linkRegistration.split('=')[1]}`}</p>
+      <p>{`localhost:3000/registration?key=${registrationToken}`}</p>
     </div>
   )
 }

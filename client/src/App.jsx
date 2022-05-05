@@ -20,7 +20,7 @@ function App() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
-  const [linkRegistration, setLinkRegistration] = useState('');
+  const [registrationToken, setRegistrationToken] = useState('');
 
   const navigate = useNavigate();
 
@@ -46,11 +46,11 @@ function App() {
     }).finally(() => setLoading(false));
   }
 
-  function getRegistration() {
+  function getRegistrationToken() {
     getLinkRegistration().then(data => {
       if (!data.message) {
         console.log(data);
-        setLinkRegistration(data.link);
+        setRegistrationToken(data.token);
       }
     });
   }
@@ -147,8 +147,8 @@ function App() {
         login={login}
         isAuth={isAuth}
         ip={ip}
-        getRegistration={getRegistration}
-        linkRegistration={linkRegistration}
+        getRegistrationToken={getRegistrationToken}
+        registrationToken={registrationToken}
       />
     </div>
   );

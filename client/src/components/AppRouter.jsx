@@ -7,15 +7,15 @@ import Auth from '../pages/auth/Auth';
 import Admin from '../pages/admin/Admin';
 import Table from '../pages/table/Table';
 
-const AppRouter = ({ login, isAuth, ip, linkRegistration, getRegistration }) => {
+const AppRouter = ({ login, isAuth, ip, registrationToken, getRegistrationToken }) => {
   return (
     <Routes>
       {isAuth &&
         <Route path={ADMIN_ROUTE}
           element={
             <Admin
-              getRegistration={getRegistration}
-              linkRegistration={linkRegistration}
+              getRegistrationToken={getRegistrationToken}
+              registrationToken={registrationToken}
             />
           }
           exact
