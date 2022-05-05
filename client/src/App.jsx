@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check } from './API/api';
+import { auth, check, getLinkRegistration } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -20,6 +20,7 @@ function App() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
+  const [linkRegistration, setLinkRegistration] = useState('');
 
   const navigate = useNavigate();
 
@@ -43,6 +44,15 @@ function App() {
         navigate(TABLE_ROUTE);
       }
     }).finally(() => setLoading(false));
+  }
+
+  function getRegistration() {
+    getLinkRegistration().then(data => {
+      if (!data.message) {
+        console.log(data);
+        setLinkRegistration(data.link);
+      }
+    });
   }
 
   function logout() {
@@ -133,7 +143,13 @@ function App() {
     <div className="">
       {isAuth && <Header user={user} logout={logout}/>}
 
-      <AppRouter login={login} isAuth={isAuth} ip={ip}/>
+      <AppRouter
+        login={login}
+        isAuth={isAuth}
+        ip={ip}
+        getRegistration={getRegistration}
+        linkRegistration={linkRegistration}
+      />
     </div>
   );
 }

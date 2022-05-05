@@ -40,3 +40,13 @@ export const check = async () => {
     return e.response.data;
   }
 }
+
+export const getLinkRegistration = async () => {
+  try {
+    const response = await $authHost.get('/api/get-registration');
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}
