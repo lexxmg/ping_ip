@@ -175,6 +175,9 @@ function App() {
         getRegistrationToken={getRegistrationToken}
         registrationToken={registrationToken}
         registration={registration}
+        sort={sort}
+        sorted={sorted}
+        setSorted={setSorted}
       />
     </div>
   );

@@ -53,7 +53,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
           ip.map(item => {
             if (item.edit) {
               return (
-                <Tr key={item.id} item={{...item}}/>
+                <Tr key={item.id} item={{...item}} setIp={setIp} ip={ip}/>
               )
             } else {
               return (
@@ -85,21 +85,29 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
   )
 }
 
-function Tr({ item }) {
+function Tr({ item, setIp, ip}) {
   const formik = useFormik({
     initialValues: {
+      id: item.id,
       name: item.name || '',
-      sw: item.sw || ''
-    },
-    onSubmit: values => {
-      console.log(values);
+      sw: item.sw || '',
+      port: item.port || '',
+      speed: item.speed || '',
+      office: item.office || '',
+      active: item.active || ''
     }
   });
 
   return (
     <tr
       className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
-      onBlur={() => console.log('blur')}
+      onBlur={() => {
+        console.log(formik.values)
+        setIp(ip.map(obg => {
+          if (obg.id === item.id) return {...obg, ...formik.values};
+          return obg;
+        }));
+      }}
     >
 
       <td className="tablr__td">{item.ip}</td>

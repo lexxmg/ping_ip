@@ -7,7 +7,10 @@ import Auth from '../pages/auth/Auth';
 import Admin from '../pages/admin/Admin';
 import Table from '../pages/table/Table';
 
-const AppRouter = ({ login, isAuth, ip, setIp, registrationToken, getRegistrationToken, registration }) => {
+const AppRouter = ({
+  login, isAuth, ip, setIp,
+  registrationToken, getRegistrationToken,
+  registration, sort, sorted, setSorted }) => {
   return (
     <Routes>
       {isAuth &&
@@ -26,7 +29,7 @@ const AppRouter = ({ login, isAuth, ip, setIp, registrationToken, getRegistratio
 
       <Route path={REGISTRATION_ROUTE} element={<Registration registration={registration} />} exact/>
 
-      {isAuth && <Route path={TABLE_ROUTE} element={<Table ip={ip} setIp={setIp}/>} exact/>}
+      {isAuth && <Route path={TABLE_ROUTE} element={<Table ip={ip} setIp={setIp} sort={sort} sorted={sorted} setSorted={setSorted}/>} exact/>}
 
       <Route path="*" element={<Navigate to={isAuth ? TABLE_ROUTE : LOGIN_ROUTE} />} />
     </Routes>
