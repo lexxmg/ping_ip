@@ -31,11 +31,10 @@ function App() {
         setUser(data);
         setIsAuth(true);
         navigate(TABLE_ROUTE);
+        getIp();
         return;
       }
-    }).then(() => {
-      ipApi().then(ip => setIp(ip)).finally(() => setLoading(false));
-    });
+    }).finally(() => setLoading(false));
   }, []);
 
   async function login(name, password) {
@@ -45,11 +44,10 @@ function App() {
         setUser(data);
         setIsAuth(true);
         navigate(TABLE_ROUTE);
+        getIp();
         return;
       }
-    }).then(() => {
-      ipApi().then(ip => setIp(ip)).finally(() => setLoading(false));
-    });
+    }).finally(() => setLoading(false));
   }
 
   async function registration(name, password) {
@@ -77,6 +75,14 @@ function App() {
     localStorage.removeItem('token');
     setIp([]);
     navigate(LOGIN_ROUTE);
+  }
+
+  async function getIp() {
+    setLoading(true);
+
+    ipApi()
+      .then(ip => setIp(ip))
+      .finally(() => setLoading(false));
   }
 
   function ping() {
@@ -165,6 +171,7 @@ function App() {
         login={login}
         isAuth={isAuth}
         ip={ip}
+        setIp={setIp}
         getRegistrationToken={getRegistrationToken}
         registrationToken={registrationToken}
         registration={registration}

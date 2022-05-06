@@ -1,7 +1,5 @@
 .table__container {
-  width: 1180px;
 
-  margin: 10px auto;
 }
 
 .table__btn {
@@ -9,5 +7,21 @@
 }
 
 .table {
-  width: 100%;
+  width: 1180px;
+
+  margin: 10px auto;
+
+  border-collapse: collapse;
+}
+
+.table__tr {
+
+}
+
+.tablr__td {
+  border: 1px solid black;
+}
+
+.table__tr--edit {
+  border: 2px solid red;
 }
