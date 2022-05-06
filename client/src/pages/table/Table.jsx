@@ -4,16 +4,6 @@ import './table.css';
 import { useFormik } from 'formik';
 
 const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      sw: ''
-    },
-    onSubmit: values => {
-      console.log(values);
-    }
-  });
-
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
     sort(name, sorted);
@@ -39,13 +29,13 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
     setIp(result);
   }
 
+  //<form className="" id='formTable' onSubmit={formik.handleSubmit}></form>
+
   return (
     <div className="table__container" onClick={e => {
       if (e.target.className === 'table__container') editOff();
     }}>
       <button className="table__btn" onClick={ping}>ping</button>
-
-      <form className="" id='formTable' onSubmit={formik.handleSubmit}></form>
 
       <table className="table">
         <thead>
@@ -63,37 +53,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
           ip.map(item => {
             if (item.edit) {
               return (
-                <tr
-                  className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
-                  key={item.id}
-
-                  onBlur={() => console.log('blur')}
-                >
-
-                  <td className="tablr__td">{item.ip}</td>
-                  <td className="tablr__td" style={{width: '70px'}} >
-                    <input
-                      style={{width: '100%'}}
-                      form="formTable"
-                      name="sw"
-                      type="text"
-                      onChange={formik.handleChange}
-                      value={formik.values.sw}
-                      />
-                  </td>
-                  <td className="tablr__td">
-                    <input
-                      style={{width: '100%'}}
-                      form="formTable"
-                      name="name"
-                      type="text"
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
-                      />
-                  </td>
-                  <td className="tablr__td">{item.speed}</td>
-                  <td className="tablr__td">{item.wasActiveDate}</td>
-                </tr>
+                <Tr key={item.id} item={{...item}}/>
               )
             } else {
               return (
@@ -122,6 +82,50 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
         </tbody>
       </table>
     </div>
+  )
+}
+
+function Tr({ item }) {
+  const formik = useFormik({
+    initialValues: {
+      name: item.name || '',
+      sw: item.sw || ''
+    },
+    onSubmit: values => {
+      console.log(values);
+    }
+  });
+
+  return (
+    <tr
+      className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
+      onBlur={() => console.log('blur')}
+    >
+
+      <td className="tablr__td">{item.ip}</td>
+      <td className="tablr__td" style={{width: '70px'}} >
+        <input
+          style={{width: '100%'}}
+          form="formTable"
+          name="sw"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.sw}
+          />
+      </td>
+      <td className="tablr__td">
+        <input
+          style={{width: '100%'}}
+          form="formTable"
+          name="name"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+          />
+      </td>
+      <td className="tablr__td">{item.speed}</td>
+      <td className="tablr__td">{item.wasActiveDate}</td>
+    </tr>
   )
 }
 
