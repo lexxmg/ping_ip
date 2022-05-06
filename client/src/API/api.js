@@ -61,3 +61,13 @@ export const getLinkRegistration = async () => {
     return e.response.data;
   }
 }
+
+export const ipApi = async (id) => {
+  try {
+    const response = await $authHost.get('/api/ip' + (id ? `/${id}` : ''));
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}

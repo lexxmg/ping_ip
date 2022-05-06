@@ -18,7 +18,7 @@ const Table = ({ip, ping, sort, sorted, setSorted}) => {
             <th onClick={() => {toggleSort('id')}}>ip</th>
             <th onClick={() => {toggleSort('sw')}}>Свитч</th>
             <th onClick={() => {toggleSort('name')}}>Пользователь</th>
-            <th onClick={() => {toggleSort('stat')}}>Статус</th>
+            <th onClick={() => {toggleSort('speed')}}>Скорость</th>
             <th>Был активен</th>
           </tr>
         </thead>
@@ -31,9 +31,9 @@ const Table = ({ip, ping, sort, sorted, setSorted}) => {
                 className="table__tr"
                 key={item.id}
                 style={
-                  item.stat
+                  item.ping
                   ? {backgroundColor: 'green'}
-                  : (item.wasActive.stat && !item.stat)
+                  : (item.wasActivePing && !item.ping)
                   ? {backgroundColor: 'yellow'}
                   : {backgroundColor: 'white'}
                 }
@@ -41,12 +41,8 @@ const Table = ({ip, ping, sort, sorted, setSorted}) => {
                 <td className="tablr__td">{item.ip}</td>
                 <td className="tablr__td">{item.sw || 'не известно'}</td>
                 <td className="tablr__td">{item.name}</td>
-                <td className="tablr__td">{item.description}</td>
-                <td
-                  className="tablr__td"
-
-                  >{item.wasActive.date}
-                </td>
+                <td className="tablr__td">{item.speed}</td>
+                <td className="tablr__td">{item.wasActiveDate}</td>
               </tr>
             )
           })

@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration, addUser } from './API/api';
+import { auth, check, getLinkRegistration, addUser, ipApi } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -31,8 +31,11 @@ function App() {
         setUser(data);
         setIsAuth(true);
         navigate(TABLE_ROUTE);
+        return;
       }
-    }).finally(() => setLoading(false));
+    }).then(() => {
+      ipApi().then(ip => setIp(ip)).finally(() => setLoading(false));
+    });
   }, []);
 
   async function login(name, password) {
@@ -42,8 +45,11 @@ function App() {
         setUser(data);
         setIsAuth(true);
         navigate(TABLE_ROUTE);
+        return;
       }
-    }).finally(() => setLoading(false));
+    }).then(() => {
+      ipApi().then(ip => setIp(ip)).finally(() => setLoading(false));
+    });
   }
 
   async function registration(name, password) {
@@ -69,6 +75,7 @@ function App() {
   function logout() {
     setIsAuth(false);
     localStorage.removeItem('token');
+    setIp([]);
     navigate(LOGIN_ROUTE);
   }
 
