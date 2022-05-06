@@ -30,6 +30,17 @@ export const auth = async (name, password) => {
   }
 }
 
+export const addUser = async (name, password) => {
+  try {
+    const response = await $host.post(`/api/registration${window.location.search}`, {user: name, password: password});
+
+    localStorage.setItem('token', response.data.token);
+    return jwt_decode(response.data.token);
+  } catch (e) {
+    return e.response.data;
+  }
+}
+
 export const check = async () => {
   try {
     const response = await $authHost.get('/api/auth');

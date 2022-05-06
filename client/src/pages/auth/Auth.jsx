@@ -3,7 +3,7 @@ import './auth.css';
 import React from 'react';
 import { useFormik } from 'formik';
 
-const Auth = ({login, setUser, setIsAuth}) => {
+const Auth = ({ login }) => {
   const formik = useFormik({
     initialValues: {
       name: '',

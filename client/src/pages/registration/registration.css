@@ -1,0 +1,31 @@
+.registration-container {
+
+}
+
+.registration__form {
+  margin: 50px auto;
+}
+
+.registration-form {
+  width: 250px;
+
+  padding: 7px;
+
+  border: 1px  solid black;
+  border-radius: 10px;
+}
+
+.registration-form__label {
+  display: block;
+}
+
+.registration-form__input {
+  display: block;
+  width: 100%;
+
+  margin: 0 0 10px 0;
+}
+
+.registration-form__btn {
+
+}

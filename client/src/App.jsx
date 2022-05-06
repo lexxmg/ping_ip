@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration } from './API/api';
+import { auth, check, getLinkRegistration, addUser } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -37,6 +37,17 @@ function App() {
 
   async function login(name, password) {
     auth(name, password).then(data => {
+      if (!data.message) {
+        console.log(data);
+        setUser(data);
+        setIsAuth(true);
+        navigate(TABLE_ROUTE);
+      }
+    }).finally(() => setLoading(false));
+  }
+
+  async function registration(name, password) {
+    addUser(name, password).then(data => {
       if (!data.message) {
         console.log(data);
         setUser(data);
@@ -149,6 +160,7 @@ function App() {
         ip={ip}
         getRegistrationToken={getRegistrationToken}
         registrationToken={registrationToken}
+        registration={registration}
       />
     </div>
   );

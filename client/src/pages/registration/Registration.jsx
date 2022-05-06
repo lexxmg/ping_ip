@@ -1,24 +1,40 @@
 
 import './registration.css';
 import React from 'react';
+import { useFormik } from 'formik';
 
-const Registration = () => {
-  const reg = () => {
-    fetch(`http://localhost:5000/api/registration${window.location.search}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({})
-    })
-      .then(res => res.json())
-      .then(data => console.log(data));
-  }
+const Registration = ({ registration }) => {
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      password: ''
+    },
+    onSubmit: values => {
+      registration(values.name, values.password);
+    }
+  });
 
   return (
     <div className="registration-container">
-
-      <button onClick={reg}>reg</button>
+      <form className="registration__form registration-form" onSubmit={formik.handleSubmit}>
+        <label className="registration-form__label" htmlFor="firstName">Имя:</label>
+        <input className="registration-form__input"
+          id="firstName"
+          name="name"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+        />
+        <label className="registration-form__label" htmlFor="lastName">Пароль:</label>
+        <input className="registration-form__input"
+          id="lastName"
+          name="password"
+          type="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        <button className="registration-form__btn" type="submit">Отправить</button>
+      </form>
     </div>
   )
 }
