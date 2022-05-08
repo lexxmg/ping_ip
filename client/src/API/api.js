@@ -82,6 +82,23 @@ export const setIpApi = async (id, data) => {
   }
 }
 
+export const uploadIpApi = async (e) => {
+  try {
+    const formData = new FormData();
+    formData.append('ip', e.target.files[0]);
+    
+    const response = await $authHost.post('/api/ip', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}
+
 export const pingApi = async () => {
   try {
     const response = await $authHost.get('/api/ping');

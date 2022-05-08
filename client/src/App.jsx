@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi } from './API/api';
+import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi, uploadIpApi } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -121,40 +121,13 @@ function App() {
     setIp(sortIp);
   }
 
-  function handleFiles(files) {
-    const result = [];
+  function uploadFile(event) {
+    setLoading(true);
 
-    const reader = new FileReader();
-    reader.readAsText(files[0]);
-
-    reader.onload = function() {
-      reader.result.split('\r').forEach((item, i) => {
-        const el = item.split(';');
-
-        result.push({tel: el[0], name: el[1]});
-      });
-
-      setipTest(result);
-      //console.log(result);
-    };
-  }
-
-  function upload(files) {
-    let data = new FormData();
-    //data.append(ip, files);
-    data.append('test', 'test');
-
-    console.log(data.test);
-
-    fetch('http://localhost:5000/api/ip', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-    body: data
-  })
-    .then(res => res.text())
-    .then(data => console.log(data));
+    uploadIpApi(event).then(data => {
+      setIp(data);
+      navigate(TABLE_ROUTE);
+    }).finally(() => setLoading(false));
   }
 
   if (loading) {
@@ -179,6 +152,7 @@ function App() {
         sort={sort}
         sorted={sorted}
         setSorted={setSorted}
+        uploadFile={uploadFile}
       />
     </div>
   );

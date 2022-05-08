@@ -11,7 +11,7 @@ const AppRouter = ({
   login, isAuth, ip, setIp,
   registrationToken, getRegistrationToken,
   registration, sort, sorted, setSorted, setIpApi,
-  ping }) => {
+  uploadFile, ping }) => {
   return (
     <Routes>
       {isAuth &&
@@ -20,6 +20,7 @@ const AppRouter = ({
             <Admin
               getRegistrationToken={getRegistrationToken}
               registrationToken={registrationToken}
+              uploadFile={uploadFile}
             />
           }
           exact
