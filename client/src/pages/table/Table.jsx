@@ -111,7 +111,6 @@ function Tr({ item, setIp, ip, setIpApi}) {
       }));
 
       setIpApi(item.id, values);
-      console.log(values);
     }
   });
 
