@@ -71,3 +71,13 @@ export const ipApi = async (id) => {
     return e.response.data;
   }
 }
+
+export const setIpApi = async (id, data) => {
+  try {
+    const response = await $authHost.put('/api/ip/' + id, {...data});
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}

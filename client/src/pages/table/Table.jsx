@@ -3,7 +3,7 @@ import React from 'react';
 import './table.css';
 import { useFormik } from 'formik';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
     sort(name, sorted);
@@ -38,13 +38,16 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
       <button className="table__btn" onClick={ping}>ping</button>
 
       <table className="table">
-        <thead>
-          <tr>
-            <th onClick={() => {toggleSort('id')}}>ip</th>
-            <th onClick={() => {toggleSort('sw')}}>Свитч</th>
-            <th onClick={() => {toggleSort('name')}}>Пользователь</th>
-            <th onClick={() => {toggleSort('speed')}}>Скорость</th>
-            <th>Был активен</th>
+        <thead className="tablr__thead">
+          <tr className="tablr__tr">
+            <th className="tablr__th" onClick={() => {toggleSort('id')}}>ip</th>
+            <th className="tablr__th" onClick={() => {toggleSort('sw')}}>Свитч</th>
+            <th className="tablr__th">Порт</th>
+            <th className="tablr__th">Комната</th>
+            <th className="tablr__th" onClick={() => {toggleSort('name')}}>Пользователь</th>
+            <th className="tablr__th" onClick={() => {toggleSort('speed')}}>Скорость</th>
+            <th className="tablr__th">Вкл/выкл</th>
+            <th className="tablr__th">Был активен</th>
           </tr>
         </thead>
 
@@ -53,7 +56,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
           ip.map(item => {
             if (item.edit) {
               return (
-                <Tr key={item.id} item={{...item}} setIp={setIp} ip={ip}/>
+                <Tr key={item.id} item={{...item}} setIpApi={setIpApi} setIp={setIp} ip={ip}/>
               )
             } else {
               return (
@@ -70,9 +73,12 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
                   onClick={() => editOn(item.id)}
                 >
                   <td className="tablr__td">{item.ip}</td>
-                  <td className="tablr__td">{item.sw}</td>
+                  <td className="tablr__td tablr__td--sw">{item.sw}</td>
+                  <td className="tablr__td tablr__td--port">{item.port}</td>
+                  <td className="tablr__td tablr__td--office">{item.office}</td>
                   <td className="tablr__td">{item.name}</td>
-                  <td className="tablr__td">{item.speed}</td>
+                  <td className="tablr__td tablr__td--speed">{item.speed}</td>
+                  <td className="tablr__td" style={item.active ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>{item.active}</td>
                   <td className="tablr__td">{item.wasActiveDate}</td>
                 </tr>
               )
@@ -85,7 +91,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted}) => {
   )
 }
 
-function Tr({ item, setIp, ip}) {
+function Tr({ item, setIp, ip, setIpApi}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -94,7 +100,18 @@ function Tr({ item, setIp, ip}) {
       port: item.port || '',
       speed: item.speed || '',
       office: item.office || '',
-      active: item.active || ''
+      active: item.active
+    },
+    onSubmit: values => {
+      values.active ? values.active = true : values.active = false;
+
+      setIp(ip.map(obg => {
+        if (obg.id === item.id) return {...obg, ...values};
+        return obg;
+      }));
+
+      setIpApi(item.id, values);
+      console.log(values);
     }
   });
 
@@ -102,18 +119,13 @@ function Tr({ item, setIp, ip}) {
     <tr
       className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
       onBlur={() => {
-        console.log(formik.values)
-        setIp(ip.map(obg => {
-          if (obg.id === item.id) return {...obg, ...formik.values};
-          return obg;
-        }));
+        formik.handleSubmit();
       }}
     >
 
       <td className="tablr__td">{item.ip}</td>
-      <td className="tablr__td" style={{width: '70px'}} >
-        <input
-          style={{width: '100%'}}
+      <td className="tablr__td tablr__td--sw">
+        <input className="table__input"
           form="formTable"
           name="sw"
           type="text"
@@ -121,9 +133,26 @@ function Tr({ item, setIp, ip}) {
           value={formik.values.sw}
           />
       </td>
+      <td className="tablr__td tablr__td--port">
+        <input className="table__input"
+          form="formTable"
+          name="port"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.port}
+        />
+      </td>
+      <td className="tablr__td tablr__td--office">
+        <input className="table__input"
+          form="formTable"
+          name="office"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.office}
+        />
+      </td>
       <td className="tablr__td">
-        <input
-          style={{width: '100%'}}
+        <input className="table__input"
           form="formTable"
           name="name"
           type="text"
@@ -131,7 +160,27 @@ function Tr({ item, setIp, ip}) {
           value={formik.values.name}
           />
       </td>
-      <td className="tablr__td">{item.speed}</td>
+      <td className="tablr__td tablr__td--speed">
+        <input className="table__input"
+          form="formTable"
+          name="speed"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.speed}
+        />
+      </td>
+      <td className="tablr__td">
+        <input className="table__input"
+          form="formTable"
+          name="active"
+          type="checkBox"
+          onChange={(e) => {
+            formik.handleChange(e);
+            formik.handleSubmit();
+          }}
+          checked={formik.values.active}
+        />
+      </td>
       <td className="tablr__td">{item.wasActiveDate}</td>
     </tr>
   )

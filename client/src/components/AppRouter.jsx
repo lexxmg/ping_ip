@@ -10,7 +10,7 @@ import Table from '../pages/table/Table';
 const AppRouter = ({
   login, isAuth, ip, setIp,
   registrationToken, getRegistrationToken,
-  registration, sort, sorted, setSorted }) => {
+  registration, sort, sorted, setSorted, setIpApi }) => {
   return (
     <Routes>
       {isAuth &&
@@ -29,7 +29,16 @@ const AppRouter = ({
 
       <Route path={REGISTRATION_ROUTE} element={<Registration registration={registration} />} exact/>
 
-      {isAuth && <Route path={TABLE_ROUTE} element={<Table ip={ip} setIp={setIp} sort={sort} sorted={sorted} setSorted={setSorted}/>} exact/>}
+      {isAuth && <Route path={TABLE_ROUTE}
+        element={
+          <Table
+            ip={ip}
+            setIp={setIp}
+            setIpApi={setIpApi} 
+            sort={sort}
+            sorted={sorted}
+            setSorted={setSorted}
+          />} exact/>}
 
       <Route path="*" element={<Navigate to={isAuth ? TABLE_ROUTE : LOGIN_ROUTE} />} />
     </Routes>

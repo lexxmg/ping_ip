@@ -14,6 +14,16 @@ if ( loadData(filePath) ) {
   ip = [];
 }
 
+const date = new Date();
+const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
+const month = (date.getMonth() >= 9) ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+const year = date.getFullYear();
+const hours = (date.getHours() >= 10) ? date.getHours() : '0' + date.getHours();
+const minutes = (date.getMinutes() >= 10) ? date.getMinutes() : '0' + date.getMinutes();
+const seconds = (date.getSeconds() >= 10) ? date.getSeconds() : '0' + date.getSeconds();
+
+const formDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
 
 class IpController {
   async getIp(req, res) {
@@ -28,16 +38,16 @@ class IpController {
     if (!req.body) return res.sendStatus(400);
 
     const id = req.params.id;
-    const sw = req.body.sw || null;
+    const sw = req.body.sw;
     const port = req.body.port || null;
     const speed = req.body.speed || '100-kb/s';
     const office = req.body.office || null;
     const name = req.body.name || null;
-    const active = req.body.active || false;
-    
+    const active = req.body.active;
+
     const ipNew = ip.map(item => {
       if (item.id == id) {
-        return {...item, sw, port, speed, office, name, active, manager: req.user.user, dateEdit: new Date()}
+        return {...item, sw: sw, port, speed, office, name, active, manager: req.user.user, dateEdit: formDate}
       }
 
       return item;
@@ -54,7 +64,6 @@ class IpController {
       //await csvToJson.generateJsonFileFromCsv(pathCsvFile, filePath);
 
       const newArr = csvToJson.getJsonFromCsv(pathCsvFile).map((item, i) => {
-        if (item.sw === 'null') item.sw = null;
         if (item.port === 'null') item.port = null;
         if (item.office === 'null') item.office = null;
         if (item.active === 'false') item.active = false;
@@ -66,6 +75,7 @@ class IpController {
         if (item.wasActiveDate === 'null') item.wasActiveDate = null;
         if (item.manager === 'null') item.manager = null;
         if (item.dateEdit === 'null') item.dateEdit = null;
+        item.id = +item.id;
 
         return item;
       });

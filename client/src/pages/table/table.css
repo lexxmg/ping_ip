@@ -7,11 +7,19 @@
 }
 
 .table {
-  width: 1180px;
+  width: 1280px;
 
   margin: 10px auto;
 
   border-collapse: collapse;
+}
+
+.tablr__thead {
+  background-color: #c6c6c6;
+}
+
+.tablr__th {
+  border: 1px solid black;
 }
 
 .table__tr {
@@ -22,6 +30,33 @@
   border: 1px solid black;
 }
 
+.table__input {
+  display: block;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+}
+
 .table__tr--edit {
   border: 2px solid red;
+}
+
+.tablr__td--sw {
+  width: 65px;
+}
+
+.tablr__td--port {
+   width: 65px;
+}
+
+.tablr__td--office {
+   width: 80px;
+}
+
+.tablr__td--speed {
+   width: 85px;
 }
