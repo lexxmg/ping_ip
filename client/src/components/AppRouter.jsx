@@ -10,7 +10,8 @@ import Table from '../pages/table/Table';
 const AppRouter = ({
   login, isAuth, ip, setIp,
   registrationToken, getRegistrationToken,
-  registration, sort, sorted, setSorted, setIpApi }) => {
+  registration, sort, sorted, setSorted, setIpApi,
+  ping }) => {
   return (
     <Routes>
       {isAuth &&
@@ -33,8 +34,9 @@ const AppRouter = ({
         element={
           <Table
             ip={ip}
+            ping={ping}
             setIp={setIp}
-            setIpApi={setIpApi} 
+            setIpApi={setIpApi}
             sort={sort}
             sorted={sorted}
             setSorted={setSorted}

@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi } from './API/api';
+import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -27,7 +27,6 @@ function App() {
   useEffect(() => {
     check().then(data => {
       if (!data.message) {
-        console.log(data);
         setUser(data);
         setIsAuth(true);
         navigate(TABLE_ROUTE);
@@ -86,9 +85,9 @@ function App() {
   }
 
   function ping() {
-    fetch('http://localhost:5000/api/ping')
-      .then(res => res.json())
-      .then(data => {
+    setLoading(true);
+
+    pingApi().then(data => {
         data.sort(function(a, b) {
           const sort = 'id';
 
@@ -99,7 +98,7 @@ function App() {
         });
 
         setIp(data);
-      });
+      }).finally(() => setLoading(false));
   }
 
   function sort(name, sort = 'asc') {
@@ -171,6 +170,7 @@ function App() {
         login={login}
         isAuth={isAuth}
         ip={ip}
+        ping={ping}
         setIp={setIp}
         setIpApi={setIpApi}
         getRegistrationToken={getRegistrationToken}

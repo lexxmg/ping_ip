@@ -81,3 +81,13 @@ export const setIpApi = async (id, data) => {
     return e.response.data;
   }
 }
+
+export const pingApi = async () => {
+  try {
+    const response = await $authHost.get('/api/ping');
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}
