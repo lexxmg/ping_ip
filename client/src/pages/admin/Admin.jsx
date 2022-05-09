@@ -17,11 +17,11 @@ const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip}) => {
         enclosingCharacter={``}
         separator={";"}
         filename={"my-file.csv"}
-        className="btn btn-primary"
+        className=""
         target="_blank"
       >
         Download me
-      </CSVLink>;
+      </CSVLink>
     </div>
   )
 }
