@@ -21,6 +21,7 @@ const AppRouter = ({
               getRegistrationToken={getRegistrationToken}
               registrationToken={registrationToken}
               uploadFile={uploadFile}
+              ip={ip}
             />
           }
           exact
