@@ -22,6 +22,7 @@ app.use('/api', router);
 
 app.use('/', express.static( path.join(__dirname, '../client/build') ) );
 
+
 app.use(errorHandler);
 
 const start = () => {
