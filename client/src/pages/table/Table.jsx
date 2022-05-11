@@ -29,7 +29,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
     setIp(result);
   }
 
-  const getStylePing = (on, ping, wasActivePing) => {
+  const getStylePing = (ping, wasActivePing, on = true) => {
     const bgR = {
       backgroundColor: '#FC4645'
     }
@@ -89,7 +89,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
                   key={item.id}
                   onClick={() => editOn(item.id)}
                 >
-                  <td className="tablr__td" style={getStylePing(true, item.ping, item.wasActivePing)}>{item.ip}</td>
+                  <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, true)}>{item.ip}</td>
                   <td className="tablr__td tablr__td--sw">{item.sw}</td>
                   <td className="tablr__td tablr__td--port">{item.port}</td>
                   <td className="tablr__td tablr__td--office">{item.office}</td>
@@ -238,7 +238,7 @@ function Circle({ active, ping, wasActivePing, mode, item, getStylePing }) {
     return (
       <div className="circle">
         <div className="circle__item"
-          style={getStylePing(true, ping, wasActivePing)}
+          style={getStylePing(ping, wasActivePing)}
           onMouseEnter={(e) => {
             console.log(`Был активен: ${item.wasActiveDate}, Редактировал: ${item.manager} ${item.dateEdit}`);
             console.log(e.target.getBoundingClientRect());
