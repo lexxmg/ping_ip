@@ -29,6 +29,30 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
     setIp(result);
   }
 
+  const getStylePing = (on, ping, wasActivePing) => {
+    const bgR = {
+      backgroundColor: '#FC4645'
+    }
+
+    const bgG = {
+      backgroundColor: '#22BC29'
+    }
+
+    const bgY = {
+      backgroundColor: '#FEB225'
+    }
+
+    const bg = {
+      backgroundColor: 'white'
+    }
+
+    if (on) {
+      return ping ? bgG : (wasActivePing && !ping) ? bgY : bgR;
+    }
+
+    return {backgroundColor: ''}
+  }
+
   //<form className="" id='formTable' onSubmit={formik.handleSubmit}></form>
 
   return (
@@ -56,18 +80,16 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
           ip.map(item => {
             if (item.edit) {
               return (
-                <Tr key={item.id} item={{...item}} setIpApi={setIpApi} setIp={setIp} ip={ip}/>
+                <Tr key={item.id} item={{...item}} setIpApi={setIpApi} setIp={setIp} ip={ip} getStylePing={getStylePing}/>
               )
             } else {
               return (
                  <tr
                   className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
                   key={item.id}
-
-
                   onClick={() => editOn(item.id)}
                 >
-                  <td className="tablr__td">{item.ip}</td>
+                  <td className="tablr__td" style={getStylePing(true, item.ping, item.wasActivePing)}>{item.ip}</td>
                   <td className="tablr__td tablr__td--sw">{item.sw}</td>
                   <td className="tablr__td tablr__td--port">{item.port}</td>
                   <td className="tablr__td tablr__td--office">{item.office}</td>
@@ -80,6 +102,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
                     <Circle
                       ping={item.ping}
                       wasActivePing={item.wasActivePing}
+                      getStylePing={getStylePing}
                       mode="ping"
                       item={item}
                     >
@@ -96,7 +119,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
   )
 }
 
-function Tr({ item, setIp, ip, setIpApi}) {
+function Tr({ item, setIp, ip, setIpApi, getStylePing}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -186,32 +209,19 @@ function Tr({ item, setIp, ip, setIpApi}) {
         />
       </td>
       <td className="tablr__td">
-        <Circle ping={item.ping} wasActivePing={item.wasActivePing} mode="ping"></Circle>
+        <Circle ping={item.ping} wasActivePing={item.wasActivePing} getStylePing={getStylePing} mode="ping"></Circle>
       </td>
     </tr>
   )
 }
 
-function Circle({ active, ping, wasActivePing, mode, item }) {
-
+function Circle({ active, ping, wasActivePing, mode, item, getStylePing }) {
   const bgR = {
-    backgroundColor: '#FC4645',
-    borderColor: '#FC4645'
+    backgroundColor: '#FC4645'
   }
 
   const bgG = {
-    backgroundColor: '#22BC29',
-    borderColor: '#22BC29'
-  }
-
-  const bgY = {
-    backgroundColor: '#FEB225',
-    borderColor: '#FEB225'
-  }
-
-  const bg = {
-    backgroundColor: 'white',
-    borderColor: 'black'
+    backgroundColor: '#22BC29'
   }
 
   if (mode === 'active') {
@@ -228,7 +238,7 @@ function Circle({ active, ping, wasActivePing, mode, item }) {
     return (
       <div className="circle">
         <div className="circle__item"
-          style={ping ? bgG : (wasActivePing && !ping) ? bgY : bgR}
+          style={getStylePing(true, ping, wasActivePing)}
           onMouseEnter={(e) => {
             console.log(`Был активен: ${item.wasActiveDate}, Редактировал: ${item.manager} ${item.dateEdit}`);
             console.log(e.target.getBoundingClientRect());

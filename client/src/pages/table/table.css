@@ -81,6 +81,6 @@
 
   margin: 0 auto;
 
-  border: 1px solid green;
+  border: 1px solid transparent;
   border-radius: 50%;
 }
