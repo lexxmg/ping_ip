@@ -47,7 +47,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
             <th className="tablr__th" onClick={() => {toggleSort('name')}}>Пользователь</th>
             <th className="tablr__th" onClick={() => {toggleSort('speed')}}>Скорость</th>
             <th className="tablr__th">Вкл/выкл</th>
-            <th className="tablr__th">Был активен</th>
+            <th className="tablr__th" onClick={() => {toggleSort('wasActivePing')}}>ping</th>
           </tr>
         </thead>
 
@@ -63,13 +63,8 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
                  <tr
                   className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
                   key={item.id}
-                  style={
-                    item.ping
-                    ? {backgroundColor: 'green'}
-                    : (item.wasActivePing && !item.ping)
-                    ? {backgroundColor: 'yellow'}
-                    : {backgroundColor: 'white'}
-                  }
+
+
                   onClick={() => editOn(item.id)}
                 >
                   <td className="tablr__td">{item.ip}</td>
@@ -78,8 +73,18 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
                   <td className="tablr__td tablr__td--office">{item.office}</td>
                   <td className="tablr__td">{item.name}</td>
                   <td className="tablr__td tablr__td--speed">{item.speed}</td>
-                  <td className="tablr__td" style={item.active ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>{item.active}</td>
-                  <td className="tablr__td">{item.wasActiveDate}</td>
+                  <td className="tablr__td">
+                    <Circle active={item.active} mode="active"></Circle>
+                  </td>
+                  <td className="tablr__td">
+                    <Circle
+                      ping={item.ping}
+                      wasActivePing={item.wasActivePing}
+                      mode="ping"
+                      item={item}
+                    >
+                    </Circle>
+                  </td>
                 </tr>
               )
             }
@@ -169,7 +174,7 @@ function Tr({ item, setIp, ip, setIpApi}) {
         />
       </td>
       <td className="tablr__td">
-        <input className="table__input"
+        <input className="table__input table__input--check"
           form="formTable"
           name="active"
           type="checkBox"
@@ -180,9 +185,59 @@ function Tr({ item, setIp, ip, setIpApi}) {
           checked={formik.values.active}
         />
       </td>
-      <td className="tablr__td">{item.wasActiveDate}</td>
+      <td className="tablr__td">
+        <Circle ping={item.ping} wasActivePing={item.wasActivePing} mode="ping"></Circle>
+      </td>
     </tr>
   )
+}
+
+function Circle({ active, ping, wasActivePing, mode, item }) {
+
+  const bgR = {
+    backgroundColor: '#FC4645',
+    borderColor: '#FC4645'
+  }
+
+  const bgG = {
+    backgroundColor: '#22BC29',
+    borderColor: '#22BC29'
+  }
+
+  const bgY = {
+    backgroundColor: '#FEB225',
+    borderColor: '#FEB225'
+  }
+
+  const bg = {
+    backgroundColor: 'white',
+    borderColor: 'black'
+  }
+
+  if (mode === 'active') {
+    return (
+      <div className="circle">
+        <div className="circle__item"
+          style={active ? bgG : bgR}
+        ></div>
+      </div>
+    )
+  }
+
+  if (mode === 'ping') {
+    return (
+      <div className="circle">
+        <div className="circle__item"
+          style={ping ? bgG : (wasActivePing && !ping) ? bgY : bgR}
+          onMouseEnter={(e) => {
+            console.log(`Был активен: ${item.wasActiveDate}, Редактировал: ${item.manager} ${item.dateEdit}`);
+            console.log(e.target.getBoundingClientRect());
+          }}
+          onMouseLeave={(e) => console.log(`Скрыть`)}
+        ></div>
+      </div>
+    )
+  }
 }
 
 export default Table;

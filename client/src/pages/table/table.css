@@ -26,6 +26,10 @@
 
 }
 
+.table__tr:hover {
+  background-color: #c6c6c6;
+}
+
 .tablr__td {
   border: 1px solid black;
 }
@@ -39,6 +43,12 @@
   padding: 0;
 
   border: none;
+}
+
+.table__input--check {
+  width: 15px;
+
+  margin: 0 auto;
 }
 
 .table__tr--edit {
@@ -59,4 +69,18 @@
 
 .tablr__td--speed {
    width: 85px;
+}
+
+.circle {
+  /* border: 1px solid #000; */
+}
+
+.circle__item {
+  width: 15px;
+  height: 15px;
+
+  margin: 0 auto;
+
+  border: 1px solid green;
+  border-radius: 50%;
 }
