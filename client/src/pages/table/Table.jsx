@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
 import Button from '../../components/UI/Button/Button';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity}) => {
   const [on, setOn] = useState(false);
 
   const toggleSort = (name) => {
@@ -98,6 +98,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                   ip={ip}
                   getStylePing={getStylePing}
                   setIpVerity={setIpVerity}
+                  ipVerity={ipVerity}
                 />
               )
             } else {
@@ -137,7 +138,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
   )
 }
 
-function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity}) {
+function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -151,14 +152,17 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity}) {
     onSubmit: values => {
       values.active ? values.active = true : values.active = false;
 
-      const newIp = ip.map(obg => {
+      setIp(ip.map(obg => {
         if (obg.id === item.id) return {...obg, ...values};
-        return obg;
-      });
+          return obg;
+        })
+      );
 
-      setIp(newIp);
-
-      //setIpVerity(newIp);
+      setIpVerity(ipVerity.map(obg => {
+        if (obg.id === item.id) return {...obg, ...values};
+          return obg;
+        })
+      );
 
       setIpApi(item.id, values);
     }
