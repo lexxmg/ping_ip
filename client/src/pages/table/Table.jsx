@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
 import Button from '../../components/UI/Button/Button';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity}) => {
   const [on, setOn] = useState(false);
 
   const toggleSort = (name) => {
@@ -66,7 +66,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp}) =
       <div className="tible__top">
         <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
 
-        <input type="text" placeholder="Поиск" onChange={e => searchIp(e.target.value)} />
+        <input className="table__search" type="text" placeholder="Поиск" onChange={e => searchIp(e.target.value)} />
 
         <Button className="table__btn" onClick={ping}>ping</Button>
       </div>
@@ -90,7 +90,15 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp}) =
           ip.map(item => {
             if (item.edit) {
               return (
-                <Tr key={item.id} item={{...item}} setIpApi={setIpApi} setIp={setIp} ip={ip} getStylePing={getStylePing}/>
+                <Tr
+                  key={item.id}
+                  item={{...item}}
+                  setIpApi={setIpApi}
+                  setIp={setIp}
+                  ip={ip}
+                  getStylePing={getStylePing}
+                  setIpVerity={setIpVerity}
+                />
               )
             } else {
               return (
@@ -129,7 +137,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp}) =
   )
 }
 
-function Tr({ item, setIp, ip, setIpApi, getStylePing}) {
+function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -143,10 +151,14 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing}) {
     onSubmit: values => {
       values.active ? values.active = true : values.active = false;
 
-      setIp(ip.map(obg => {
+      const newIp = ip.map(obg => {
         if (obg.id === item.id) return {...obg, ...values};
         return obg;
-      }));
+      });
+
+      setIp(newIp);
+
+      //setIpVerity(newIp);
 
       setIpApi(item.id, values);
     }

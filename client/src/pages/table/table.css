@@ -10,19 +10,30 @@
   width: 1380px;
 
   margin: 0 auto;
+  padding: 5px 0 0 0;
 }
 
 .table__btn {
   width: 80px;
   height: 30px;
 
-  margin: 5px 0 0 0;
-
   font-size: 16px;
 }
 
 .table__checkbox {
-  margin: 5px 0 0 0;
+
+}
+
+.table__search {
+  display: block;
+
+  width: 280px;
+  height: 30px;
+
+  padding: 5px;
+
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 
 .table {

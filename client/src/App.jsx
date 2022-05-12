@@ -170,6 +170,7 @@ function App() {
         setSorted={setSorted}
         uploadFile={uploadFile}
         searchIp={searchIp}
+        setIpVerity={setIpVerity}
       />
     </div>
   );
