@@ -3,6 +3,7 @@ import React from 'react';
 import './header.css';
 import { ADMIN_ROUTE, TABLE_ROUTE } from '../../utils/consts';
 import { NavLink } from 'react-router-dom';
+import Button from '../UI/Button/Button';
 
 const Preloader = ({user, logout}) => {
   return (
@@ -14,7 +15,7 @@ const Preloader = ({user, logout}) => {
       <div className="header__right-inner">
         <span className="header__user">{user.user}</span>
 
-        <button className="header__btn" onClick={logout}>Выход</button>
+        <Button className="header__btn" onClick={logout}>Выход</Button>
       </div>
     </header>
   )

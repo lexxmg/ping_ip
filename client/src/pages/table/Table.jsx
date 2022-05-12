@@ -1,9 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import './table.css';
 import { useFormik } from 'formik';
+import CheckBox from '../../components/UI/CheckBox/CheckBox';
+import Button from '../../components/UI/Button/Button';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp}) => {
+  const [on, setOn] = useState(false);
+
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
     sort(name, sorted);
@@ -39,7 +43,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
     }
 
     const bgY = {
-      backgroundColor: '#FEB225'
+      backgroundColor: '#fedb25'
     }
 
     const bg = {
@@ -59,7 +63,13 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
     <div className="table__container" onClick={e => {
       if (e.target.className === 'table__container') editOff();
     }}>
-      <button className="table__btn" onClick={ping}>ping</button>
+      <div className="tible__top">
+        <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
+
+        <input type="text" placeholder="Поиск" onChange={e => searchIp(e.target.value)} />
+
+        <Button className="table__btn" onClick={ping}>ping</Button>
+      </div>
 
       <table className="table">
         <thead className="tablr__thead">
@@ -89,11 +99,11 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi}) => {
                   key={item.id}
                   onClick={() => editOn(item.id)}
                 >
-                  <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, true)}>{item.ip}</td>
-                  <td className="tablr__td tablr__td--sw">{item.sw}</td>
-                  <td className="tablr__td tablr__td--port">{item.port}</td>
-                  <td className="tablr__td tablr__td--office">{item.office}</td>
-                  <td className="tablr__td">{item.name}</td>
+                  <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.ip}</td>
+                  <td className="tablr__td tablr__td--sw" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.sw}</td>
+                  <td className="tablr__td tablr__td--port" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.port}</td>
+                  <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
+                  <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.name}</td>
                   <td className="tablr__td tablr__td--speed">{item.speed}</td>
                   <td className="tablr__td">
                     <Circle active={item.active} mode="active"></Circle>

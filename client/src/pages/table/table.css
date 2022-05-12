@@ -2,8 +2,27 @@
   overflow: auto;
 }
 
+.tible__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 1380px;
+
+  margin: 0 auto;
+}
+
 .table__btn {
-  display: block;
+  width: 80px;
+  height: 30px;
+
+  margin: 5px 0 0 0;
+
+  font-size: 16px;
+}
+
+.table__checkbox {
+  margin: 5px 0 0 0;
 }
 
 .table {

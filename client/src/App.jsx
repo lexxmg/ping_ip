@@ -15,6 +15,7 @@ import './app.css';
 
 function App() {
   const [ip, setIp] = useState([]);
+  const [ipVerity, setIpVerity] = useState([]);
   const [sorted, setSorted] = useState('asc');
   const [ipTest, setipTest] = useState([]);
   const [user, setUser] = useState({});
@@ -80,8 +81,10 @@ function App() {
     setLoading(true);
 
     ipApi()
-      .then(ip => setIp(ip))
-      .finally(() => setLoading(false));
+      .then(ip => {
+        setIp(ip);
+        setIpVerity(ip);
+      }).finally(() => setLoading(false));
   }
 
   function ping() {
@@ -98,6 +101,7 @@ function App() {
         });
 
         setIp(data);
+        setIpVerity(data);
       }).finally(() => setLoading(false));
   }
 
@@ -119,6 +123,18 @@ function App() {
     });
 
     setIp(sortIp);
+  }
+
+  function searchIp(search) {
+    setIp(ipVerity.filter(item => {
+      const ip = item.ip.toLowerCase().search( search.toLowerCase() );
+      const name = item.name.toLowerCase().search( search.toLowerCase() );
+
+      if ( ip >= 0 || name >= 0 ) {
+        return true;
+      }
+      return false;
+    }));
   }
 
   function uploadFile(event) {
@@ -153,6 +169,7 @@ function App() {
         sorted={sorted}
         setSorted={setSorted}
         uploadFile={uploadFile}
+        searchIp={searchIp}
       />
     </div>
   );

@@ -25,7 +25,8 @@
 }
 
 .header__btn {
-
+  width: 80px;
+  height: 30px;
 }
 
 .header__nav {

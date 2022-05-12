@@ -11,7 +11,7 @@ const AppRouter = ({
   login, isAuth, ip, setIp,
   registrationToken, getRegistrationToken,
   registration, sort, sorted, setSorted, setIpApi,
-  uploadFile, ping }) => {
+  uploadFile, ping, searchIp }) => {
   return (
     <Routes>
       {isAuth &&
@@ -43,6 +43,7 @@ const AppRouter = ({
             sort={sort}
             sorted={sorted}
             setSorted={setSorted}
+            searchIp={searchIp}
           />} exact/>}
 
       <Route path="*" element={<Navigate to={isAuth ? TABLE_ROUTE : LOGIN_ROUTE} />} />

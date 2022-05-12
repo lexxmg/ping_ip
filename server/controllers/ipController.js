@@ -42,7 +42,7 @@ class IpController {
     const port = req.body.port || null;
     const speed = req.body.speed || '100-kb/s';
     const office = req.body.office || null;
-    const name = req.body.name || null;
+    const name = req.body.name;
     const active = req.body.active;
 
     const ipNew = ip.map(item => {
