@@ -15,6 +15,14 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
     wasActiveDate: ''
   });
 
+  const [cardIpState, setCardIpState] = useState({
+    visible: false,
+    event: null,
+    gateway: '',
+    mask: '',
+    ip: ''
+  });
+
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
     sort(name, sorted);
@@ -116,7 +124,27 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                   key={item.id}
                   onClick={() => editOn(item.id)}
                 >
-                  <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.ip}</td>
+                  <td className="tablr__td"
+                    style={getStylePing(item.ping, item.wasActivePing, on)}
+                    onMouseEnter={(e) => {
+                      setCardIpState({
+                        visible: true,
+                        event: e,
+                        gateway: item.gateway,
+                        mask: item.mask,
+                        ip: item.ip
+                      })
+                    }}
+                    onMouseLeave={(e) => {
+                      setCardIpState({
+                        visible: false,
+                        event: null,
+                        gateway: '',
+                        mask: '',
+                        ip: ''
+                      })
+                    }}
+                  >{item.ip}</td>
                   <td className="tablr__td tablr__td--sw" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.sw}</td>
                   <td className="tablr__td tablr__td--port" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.port}</td>
                   <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
@@ -144,7 +172,8 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
         </tbody>
       </table>
 
-      {cardStatState.visible && <CartStat data={{...cardStatState}}></CartStat>}
+      {cardStatState.visible && <CardStat data={{...cardStatState}}></CardStat>}
+      {cardIpState.visible && <CardIp data={{...cardIpState}}></CardIp>}
     </div>
   )
 }
@@ -246,7 +275,7 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, se
         />
       </td>
       <td className="tablr__td">
-        <Circle ping={item.ping} wasActivePing={item.wasActivePing} getStylePing={getStylePing} setCardStatState={setCardStatState} mode="ping"></Circle>
+        <Circle ping={item.ping} item={item} wasActivePing={item.wasActivePing} getStylePing={getStylePing} setCardStatState={setCardStatState} mode="ping"></Circle>
       </td>
     </tr>
   )
@@ -300,7 +329,7 @@ function Circle({ active, ping, wasActivePing, mode, item, getStylePing, setCard
   }
 }
 
-function CartStat({data}) {
+function CardStat({data}) {
   const h = window.innerHeight;
   const x = data.event.clientX;
   let y = data.event.clientY;
@@ -330,10 +359,32 @@ function CartStat({data}) {
   )
 }
 
-function CartIp() {
-  return (
-    <div className="card-ip">
+function CardIp({data}) {
+  const h = window.innerHeight;
+  const x = data.event.clientX;
+  let y = data.event.clientY;
+  const delta = 100;
 
+  if ( h - (y + delta) <= 0 ) {
+    y = y - delta;
+  }
+
+  return (
+    <div className="card-ip" style={{position: 'fixed', top: y + 'px', left: (x + 50) + 'px'}}>
+      <div className="card-ip__item card-ip-item">
+        <span className="card-ip-item__title">IP-адрес:</span>
+        <span className="card-ip-item__text">{data.ip || 'Неизвестно'}</span>
+      </div>
+
+      <div className="card-ip__item card-ip-item">
+        <span className="card-ip-item__title">Маска:</span>
+        <span className="card-ip-item__text">{data.mask || 'Неизвестно'}</span>
+      </div>
+
+      <div className="card-ip__item card-ip-item">
+        <span className="card-ip-item__title">Шлюз:</span>
+        <span className="card-ip-item__text">{data.gateway || 'Неизвестно'}</span>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,7 @@
 .table__container {
   overflow: auto;
+
+  height: 100vh;
 }
 
 .tible__top {
@@ -91,14 +93,14 @@
 }
 
 .card-stat__item {
-
-}
-
-.card-stat-item {
   margin: 0 0 5px 0;
 }
 
-.card-stat-item:last-child {
+.card-stat-item {
+
+}
+
+.card-stat__item:last-child {
   margin: 0;
 }
 
@@ -107,6 +109,41 @@
 }
 
 .card-stat-item__text {
+
+}
+
+.card-ip {
+  z-index: 200;
+
+  width: 220px;
+
+  padding: 5px;
+
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  background-color: white;
+
+  box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
+}
+
+.card-ip__item {
+  margin: 0 0 5px 0;
+}
+
+.card-ip__item:last-child {
+  margin: 0;
+}
+
+.card-ip-item {
+
+}
+
+.card-ip-item__title {
+  margin: 0 10px 0 0;
+}
+
+.card-ip-item__text {
 
 }
 
