@@ -7,6 +7,13 @@ import Button from '../../components/UI/Button/Button';
 
 const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity}) => {
   const [on, setOn] = useState(false);
+  const [cardStatState, setCardStatState] = useState({
+    visible: false,
+    event: null,
+    manager: '',
+    dateEdit: '',
+    wasActiveDate: ''
+  });
 
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
@@ -99,6 +106,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                   getStylePing={getStylePing}
                   setIpVerity={setIpVerity}
                   ipVerity={ipVerity}
+                  setCardStatState={setCardStatState}
                 />
               )
             } else {
@@ -124,6 +132,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                       getStylePing={getStylePing}
                       mode="ping"
                       item={item}
+                      setCardStatState={setCardStatState}
                     >
                     </Circle>
                   </td>
@@ -134,11 +143,13 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
         }
         </tbody>
       </table>
+
+      {cardStatState.visible && <CartStat data={{...cardStatState}}></CartStat>}
     </div>
   )
 }
 
-function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity}) {
+function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, setCardStatState}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -235,13 +246,13 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity}) {
         />
       </td>
       <td className="tablr__td">
-        <Circle ping={item.ping} wasActivePing={item.wasActivePing} getStylePing={getStylePing} mode="ping"></Circle>
+        <Circle ping={item.ping} wasActivePing={item.wasActivePing} getStylePing={getStylePing} setCardStatState={setCardStatState} mode="ping"></Circle>
       </td>
     </tr>
   )
 }
 
-function Circle({ active, ping, wasActivePing, mode, item, getStylePing }) {
+function Circle({ active, ping, wasActivePing, mode, item, getStylePing, setCardStatState }) {
   const bgR = {
     backgroundColor: '#FC4645'
   }
@@ -266,14 +277,65 @@ function Circle({ active, ping, wasActivePing, mode, item, getStylePing }) {
         <div className="circle__item"
           style={getStylePing(ping, wasActivePing)}
           onMouseEnter={(e) => {
-            console.log(`Был активен: ${item.wasActiveDate}, Редактировал: ${item.manager} ${item.dateEdit}`);
-            console.log(e.target.getBoundingClientRect());
+            setCardStatState({
+              visible: true,
+              event: e,
+              manager: item.manager,
+              dateEdit: item.dateEdit,
+              wasActiveDate: item.wasActiveDate
+            })
           }}
-          onMouseLeave={(e) => console.log(`Скрыть`)}
+          onMouseLeave={(e) => {
+            setCardStatState({
+              visible: false,
+              event: null,
+              manager: '',
+              dateEdit: '',
+              wasActiveDate: ''
+            })
+          }}
         ></div>
       </div>
     )
   }
+}
+
+function CartStat({data}) {
+  const h = window.innerHeight;
+  const x = data.event.clientX;
+  let y = data.event.clientY;
+  const delta = 100;
+
+  if ( h - (y + delta) <= 0 ) {
+    y = y - delta;
+  }
+
+  return (
+    <div className="card-stat" style={{position: 'fixed', top: y + 'px', left: (x - 350) + 'px'}}>
+      <div className="card-stat__item card-stat-item">
+        <span className="card-stat-item__title">Был активен:</span>
+        <span className="card-stat-item__text">{data.wasActiveDate || 'Не пингуется'}</span>
+      </div>
+
+      <div className="card-stat__item card-stat-item">
+        <span className="card-stat-item__title">Редактировал:</span>
+        <span className="card-stat-item__text">{data.manager || 'Не редактировался'}</span>
+      </div>
+
+      <div className="card-stat__item card-stat-item">
+        <span className="card-stat-item__title">Редактировалось:</span>
+        <span className="card-stat-item__text">{data.dateEdit || 'Не редактировался'}</span>
+      </div>
+    </div>
+  )
+}
+
+function CartIp() {
+  return (
+    <div className="card-ip">
+
+    </div>
+  )
 }
 
 export default Table;

@@ -75,6 +75,41 @@
   border: none;
 }
 
+.card-stat {
+  z-index: 200;
+
+  width: 320px;
+
+  padding: 5px;
+
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  background-color: white;
+
+  box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
+}
+
+.card-stat__item {
+
+}
+
+.card-stat-item {
+  margin: 0 0 5px 0;
+}
+
+.card-stat-item:last-child {
+  margin: 0;
+}
+
+.card-stat-item__title {
+  margin: 0 10px 0 0;
+}
+
+.card-stat-item__text {
+
+}
+
 .table__input--check {
   width: 15px;
 
