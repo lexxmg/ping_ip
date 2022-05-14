@@ -11,7 +11,8 @@ const AppRouter = ({
   login, isAuth, ip, setIp,
   registrationToken, getRegistrationToken,
   registration, sort, sorted, setSorted, setIpApi,
-  uploadFile, ping, searchIp, setIpVerity, ipVerity, getDate }) => {
+  uploadFile, ping, searchIp, setIpVerity, ipVerity, getDate,
+  getUsers, users }) => {
   return (
     <Routes>
       {isAuth &&
@@ -24,6 +25,8 @@ const AppRouter = ({
               ip={ip}
               setIp={setIp}
               getDate={getDate}
+              getUsers={getUsers}
+              users={users}
             />
           }
           exact

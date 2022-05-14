@@ -94,25 +94,32 @@ class UserController {
   }
 
   getUser(req, res) {
-    res.json(users);
+    const temovePassUser = users.map(user => {
+      return {id: user.id, user: user.user, role: user.role}
+    });
+    res.json(temovePassUser);
   }
 
   async editUser(req, res) {
     const {id, password, role} = req.body;
 
-    if (!password) {
-      return next(ApiError.badRequest('Поле пароль ен может быть пустым'));
+    if (password === '') {
+      users.forEach((item, i) => {
+        if (item.id == id) {
+          item.role = role;
+        }
+      });
+    } else {
+      const nashPassword = await bcrypt.hash(password, 4);
+
+      users.forEach((item, i) => {
+        if (item.id == id) {
+          item.nashPassword = nashPassword;
+          item.role = role;
+        }
+      });
     }
 
-    const nashPassword = await bcrypt.hash(password, 4);
-
-    users.forEach((item, i) => {
-      if (item.id == id) {
-        item.nashPassword = nashPassword;
-        item.role = role;
-      }
-    });
-  
     storeData(users, pathUsers);
 
     res.json({message: 'success'});

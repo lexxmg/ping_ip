@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi, uploadIpApi } from './API/api';
+import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi, uploadIpApi, getUsersApi } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -19,6 +19,7 @@ function App() {
   const [sorted, setSorted] = useState('asc');
   const [ipTest, setipTest] = useState([]);
   const [user, setUser] = useState({});
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
   const [registrationToken, setRegistrationToken] = useState('');
@@ -50,12 +51,27 @@ function App() {
     }).finally(() => setLoading(false));
   }
 
+  async function getUsers() {
+    if (user.role === 'ADMIN') {
+      getUsersApi().then(data => {
+        if (!data.message) {
+          console.log(data);
+          setUsers(data);
+          return;
+        }
+      }).finally(() => setLoading(false));
+    } else {
+      setUsers([]);
+    }
+  }
+
   async function registration(name, password) {
     addUser(name, password).then(data => {
       if (!data.message) {
         console.log(data);
         setUser(data);
         setIsAuth(true);
+        getIp();
         navigate(TABLE_ROUTE);
       }
     }).finally(() => setLoading(false));
@@ -185,6 +201,8 @@ function App() {
         searchIp={searchIp}
         ipVerity={ipVerity}
         setIpVerity={setIpVerity}
+        getUsers={getUsers}
+        users={users}
       />
     </div>
   );

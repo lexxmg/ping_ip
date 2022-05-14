@@ -62,6 +62,16 @@ export const getLinkRegistration = async () => {
   }
 }
 
+export const getUsersApi = async () => {
+  try {
+    const response = await $authHost.get('/api/user');
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}
+
 export const ipApi = async (id) => {
   try {
     const response = await $authHost.get('/api/ip' + (id ? `/${id}` : ''));
@@ -86,7 +96,7 @@ export const uploadIpApi = async (e) => {
   try {
     const formData = new FormData();
     formData.append('ip', e.target.files[0]);
-    
+
     const response = await $authHost.post('/api/ip', formData, {
       headers: {
         "Content-Type": "multipart/form-data"

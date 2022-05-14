@@ -9,7 +9,7 @@ const Preloader = ({user, logout}) => {
   return (
     <header className="header">
       <div className="header__left-inner">
-        {user.role === 'ADMIN' && <Nav />}
+        {user.role !== 'USER' && <Nav />}
       </div>
 
       <div className="header__right-inner">

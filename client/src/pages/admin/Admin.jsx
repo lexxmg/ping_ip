@@ -3,11 +3,13 @@ import './admin.css';
 import React, { useEffect } from 'react';
 import { CSVLink } from "react-csv";
 
-const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip, setIp, getDate}) => {
+const Admin = ({getRegistrationToken, registrationToken,
+  uploadFile, ip, setIp, getDate, getUsers, users }) => {
   const host = document.location.origin;
 
   useEffect(() => {
     setIp( ip.map( item => ({...item, ping: false}) ) );
+    getUsers();
   }, []);
 
   return (
@@ -28,6 +30,17 @@ const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip, setIp, 
       >
         Скачть CSV файл
       </CSVLink>
+
+      <ul>
+        {users.map(item => {
+          return (
+            <li key={item.id}>
+              <span>{item.user}:</span>
+              <span>{item.role}</span>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
