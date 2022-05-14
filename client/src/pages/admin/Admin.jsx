@@ -3,7 +3,9 @@ import './admin.css';
 import React, { useEffect } from 'react';
 import { CSVLink } from "react-csv";
 
-const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip, setIp}) => {
+const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip, setIp, getDate}) => {
+  const host = document.location.origin;
+
   useEffect(() => {
     setIp( ip.map( item => ({...item, ping: false}) ) );
   }, []);
@@ -12,7 +14,7 @@ const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip, setIp})
     <div className="admin-container">
       <button onClick={getRegistrationToken}>Получить ссыдку на регестрацию</button>
 
-      <p>{`localhost:3000/registration?key=${registrationToken}`}</p>
+      <p>{`${host}/registration?key=${registrationToken}`}</p>
 
       <input type="file" accept=".csv" onChange={uploadFile}/>
 
@@ -21,7 +23,7 @@ const Admin = ({getRegistrationToken, registrationToken, uploadFile, ip, setIp})
         data={ip}
         enclosingCharacter={``}
         separator={";"}
-        filename={"my-file.csv"}
+        filename={`ip_table_${getDate().split(' ')[0]}.csv`}
         target="_blank"
       >
         Скачть CSV файл

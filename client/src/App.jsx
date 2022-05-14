@@ -146,6 +146,18 @@ function App() {
     }).finally(() => setLoading(false));
   }
 
+  function getDate() {
+    const date = new Date();
+    const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
+    const month = (date.getMonth() >= 9) ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+    const year = date.getFullYear();
+    const hours = (date.getHours() >= 10) ? date.getHours() : '0' + date.getHours();
+    const minutes = (date.getMinutes() >= 10) ? date.getMinutes() : '0' + date.getMinutes();
+    const seconds = (date.getSeconds() >= 10) ? date.getSeconds() : '0' + date.getSeconds();
+
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  }
+
   if (loading) {
     return <Preloader/>
   }
@@ -156,6 +168,7 @@ function App() {
       {isAuth && <Header user={user} logout={logout}/>}
 
       <AppRouter
+        getDate={getDate}
         login={login}
         isAuth={isAuth}
         ip={ip}

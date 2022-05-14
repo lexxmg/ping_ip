@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
 import Button from '../../components/UI/Button/Button';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity, getDate}) => {
   const [on, setOn] = useState(false);
   const [cardStatState, setCardStatState] = useState({
     visible: false,
@@ -115,6 +115,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                   setIpVerity={setIpVerity}
                   ipVerity={ipVerity}
                   setCardStatState={setCardStatState}
+                  getDate={getDate}
                 />
               )
             } else {
@@ -161,6 +162,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                       mode="ping"
                       item={item}
                       setCardStatState={setCardStatState}
+                      getDate={getDate}
                     >
                     </Circle>
                   </td>
@@ -178,7 +180,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
   )
 }
 
-function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, setCardStatState}) {
+function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, setCardStatState, getDate}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -275,13 +277,13 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, se
         />
       </td>
       <td className="tablr__td">
-        <Circle ping={item.ping} item={item} wasActivePing={item.wasActivePing} getStylePing={getStylePing} setCardStatState={setCardStatState} mode="ping"></Circle>
+        <Circle ping={item.ping} item={item} wasActivePing={item.wasActivePing} getStylePing={getStylePing} setCardStatState={setCardStatState} getDate={getDate} mode="ping"></Circle>
       </td>
     </tr>
   )
 }
 
-function Circle({ active, ping, wasActivePing, mode, item, getStylePing, setCardStatState }) {
+function Circle({ active, ping, wasActivePing, mode, item, getStylePing, setCardStatState, getDate }) {
   const bgR = {
     backgroundColor: '#FC4645'
   }
@@ -311,7 +313,8 @@ function Circle({ active, ping, wasActivePing, mode, item, getStylePing, setCard
               event: e,
               manager: item.manager,
               dateEdit: item.dateEdit,
-              wasActiveDate: item.wasActiveDate
+              wasActiveDate: item.wasActiveDate,
+              currentDete: getDate()
             })
           }}
           onMouseLeave={(e) => {
@@ -333,7 +336,7 @@ function CardStat({data}) {
   const h = window.innerHeight;
   const x = data.event.clientX;
   let y = data.event.clientY;
-  const delta = 100;
+  const delta = 120;
 
   if ( h - (y + delta) <= 0 ) {
     y = y - delta;
@@ -341,6 +344,11 @@ function CardStat({data}) {
 
   return (
     <div className="card-stat" style={{position: 'fixed', top: y + 'px', left: (x - 350) + 'px'}}>
+      <div className="card-stat__item card-stat-item">
+        <span className="card-stat-item__title">Текущая дата:</span>
+        <span className="card-stat-item__text">{data.currentDete}</span>
+      </div>
+
       <div className="card-stat__item card-stat-item">
         <span className="card-stat-item__title">Был активен:</span>
         <span className="card-stat-item__text">{data.wasActiveDate || 'Не пингуется'}</span>
