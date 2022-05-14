@@ -1,0 +1,13 @@
+
+
+.admin-container__reg-link{
+  overflow: auto;
+
+  display: block;
+
+  width: 100%;
+
+  margin: 10px 0 0 0;
+
+  white-space: nowrap;
+}

@@ -78,10 +78,11 @@ function App() {
   }
 
   function getRegistrationToken() {
+    const host = document.location.origin;
+
     getLinkRegistration().then(data => {
       if (!data.message) {
-        console.log(data);
-        setRegistrationToken(data.token);
+        setRegistrationToken(`${host}/registration?key=${data.token}`);
       }
     });
   }
