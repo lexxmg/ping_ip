@@ -25,6 +25,7 @@ class UserController {
   async registration(req, res, next) {
     try {
       const {key} = req.query;
+      
       const decoded = jwt.verify(key, config.get('SECRET_KEY'));
 
       if (!key) {

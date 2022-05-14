@@ -82,7 +82,7 @@ function App() {
 
     getLinkRegistration().then(data => {
       if (!data.message) {
-        setRegistrationToken(`${host}/registration?key=${data.token}`);
+        setRegistrationToken(`${host}/#/registration?key=${data.token}`);
       }
     });
   }

@@ -31,8 +31,11 @@ export const auth = async (name, password) => {
 }
 
 export const addUser = async (name, password) => {
+  const query = window.location.href.split('?')[1];
   try {
-    const response = await $host.post(`/api/registration${window.location.search}`, {user: name, password: password});
+    const response = await $host.post(`/api/registration?${query}`,
+      {user: name, password: password}
+    );
 
     localStorage.setItem('token', response.data.token);
     return jwt_decode(response.data.token);
