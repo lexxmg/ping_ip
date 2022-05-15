@@ -12,7 +12,7 @@ const AppRouter = ({
   registrationToken, getRegistrationToken,
   registration, sort, sorted, setSorted, setIpApi,
   uploadFile, ping, searchIp, setIpVerity, ipVerity, getDate,
-  getUsers, users }) => {
+  getUsers, users, deleteUser }) => {
   return (
     <Routes>
       {isAuth &&
@@ -27,6 +27,7 @@ const AppRouter = ({
               getDate={getDate}
               getUsers={getUsers}
               users={users}
+              deleteUser={deleteUser}
             />
           }
           exact

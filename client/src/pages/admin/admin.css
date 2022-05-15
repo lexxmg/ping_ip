@@ -11,3 +11,9 @@
 
   white-space: nowrap;
 }
+
+.admin-container__user-list-container {
+  width: 500px;
+
+  margin: 10px auto;
+}

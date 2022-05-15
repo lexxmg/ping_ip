@@ -1,0 +1,40 @@
+.users-list {
+
+}
+
+.users-list__card {
+
+}
+
+.users-list-card {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin: 5px 0 0 0;
+  padding: 5px;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+.users-list-card__body-container {
+
+}
+
+.users-list-card__user {
+  margin: 0 10px 0 0;
+}
+
+.users-list-card__role {
+
+}
+
+.users-list-card__btn-container {
+
+}
+
+.users-list-card__btn {
+
+}

@@ -65,6 +65,11 @@ function App() {
     }
   }
 
+  async function deleteUser(id) {
+    console.log(id);
+    setUsers( users.filter(item => item.id !== id) );
+  }
+
   async function registration(name, password) {
     addUser(name, password).then(data => {
       if (!data.message) {
@@ -204,6 +209,7 @@ function App() {
         setIpVerity={setIpVerity}
         getUsers={getUsers}
         users={users}
+        deleteUser={deleteUser}
       />
     </div>
   );

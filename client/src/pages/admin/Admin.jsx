@@ -2,9 +2,10 @@
 import './admin.css';
 import React, { useEffect } from 'react';
 import { CSVLink } from "react-csv";
+import UsersList from "../../components/Users-list/UsersList";
 
 const Admin = ({getRegistrationToken, registrationToken,
-  uploadFile, ip, setIp, getDate, getUsers, users }) => {
+  uploadFile, ip, setIp, getDate, getUsers, users, deleteUser }) => {
 
   useEffect(() => {
     setIp( ip.map( item => ({...item, ping: false}) ) );
@@ -30,16 +31,9 @@ const Admin = ({getRegistrationToken, registrationToken,
         Скачть CSV файл
       </CSVLink>
 
-      <ul>
-        {users.map(item => {
-          return (
-            <li key={item.id}>
-              <span>{item.user}:</span>
-              <span>{item.role}</span>
-            </li>
-          )
-        })}
-      </ul>
+      <div className="admin-container__user-list-container">
+        <UsersList users={users} deleteUser={deleteUser}></UsersList>
+      </div>
     </div>
   )
 }
