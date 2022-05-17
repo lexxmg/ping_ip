@@ -1,7 +1,6 @@
 *.class
 
-storage
-ip.json
+/server/storage/*.*
 
 # Package Files #
 *.jar
