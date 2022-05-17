@@ -5,7 +5,7 @@ import { CSVLink } from "react-csv";
 import UsersList from "../../components/Users-list/UsersList";
 
 const Admin = ({getRegistrationToken, registrationToken,
-  uploadFile, ip, setIp, getDate, getUsers, users, deleteUser }) => {
+  uploadFile, ip, setIp, getDate, getUsers, users, editMode, deleteUser, editUser }) => {
 
   useEffect(() => {
     setIp( ip.map( item => ({...item, ping: false}) ) );
@@ -32,7 +32,7 @@ const Admin = ({getRegistrationToken, registrationToken,
       </CSVLink>
 
       <div className="admin-container__user-list-container">
-        <UsersList users={users} deleteUser={deleteUser}></UsersList>
+        <UsersList users={users} editMode={editMode} deleteUser={deleteUser} editUser={editUser}></UsersList>
       </div>
     </div>
   )

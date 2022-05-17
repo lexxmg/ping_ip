@@ -77,6 +77,18 @@ export const getUsersApi = async () => {
   }
 }
 
+export const editUserApi = async (id, role, password) => {
+  try {
+    const response = await $authHost.put('/api/user/',
+      {id, role, password}
+    );
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}
+
 export const deleteUsersApi = async (id) => {
   try {
     const response = await $authHost.delete('/api/user/' + id);

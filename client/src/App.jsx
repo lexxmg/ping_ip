@@ -6,7 +6,9 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi, uploadIpApi, getUsersApi, deleteUsersApi } from './API/api';
+import { auth, check, getLinkRegistration, addUser,
+  ipApi, setIpApi, pingApi, uploadIpApi, editUserApi,
+  getUsersApi, deleteUsersApi } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -63,6 +65,20 @@ function App() {
     } else {
       setUsers([]);
     }
+  }
+
+  async function editUser(id, role, password) {
+    editUserApi(id, role, password);
+  }
+
+  function editMode(id, edit) {
+    setUsers(users.map(item => {
+      if (item.id === id && edit) {
+        return {...item, edit: true}
+      } else {
+        return {...item, edit: false}
+      }
+    }));
   }
 
   async function deleteUser(id) {
@@ -211,7 +227,9 @@ function App() {
         setIpVerity={setIpVerity}
         getUsers={getUsers}
         users={users}
+        editMode={editMode}
         deleteUser={deleteUser}
+        editUser={editUser}
       />
     </div>
   );
