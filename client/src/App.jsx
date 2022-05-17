@@ -6,7 +6,7 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
-import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi, uploadIpApi, getUsersApi } from './API/api';
+import { auth, check, getLinkRegistration, addUser, ipApi, setIpApi, pingApi, uploadIpApi, getUsersApi, deleteUsersApi } from './API/api';
 //import Table from './components/Table/Table';
 //import Upload from './components/Upload/Upload';
 import 'normalize.css';
@@ -66,8 +66,10 @@ function App() {
   }
 
   async function deleteUser(id) {
-    console.log(id);
     setUsers( users.filter(item => item.id !== id) );
+    deleteUsersApi(id).then(data => {
+      console.log(data);
+    });
   }
 
   async function registration(name, password) {

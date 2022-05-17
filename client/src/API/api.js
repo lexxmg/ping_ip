@@ -2,12 +2,14 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
+const BASE_URL = 'http://localhost:5028';
+
 const $authHost = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: BASE_URL
 });
 
 const $host = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: BASE_URL
 });
 
 const authInterceptor = config => {
@@ -68,6 +70,16 @@ export const getLinkRegistration = async () => {
 export const getUsersApi = async () => {
   try {
     const response = await $authHost.get('/api/user');
+
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+}
+
+export const deleteUsersApi = async (id) => {
+  try {
+    const response = await $authHost.delete('/api/user/' + id);
 
     return response.data;
   } catch (e) {
