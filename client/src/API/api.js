@@ -2,7 +2,7 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-const BASE_URL = 'http://192.168.5.72:5028';
+const BASE_URL = '/';
 
 const $authHost = axios.create({
   baseURL: BASE_URL
