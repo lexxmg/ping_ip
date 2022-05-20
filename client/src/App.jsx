@@ -49,6 +49,8 @@ function App() {
         navigate(TABLE_ROUTE);
         getIp();
         return;
+      } else  {
+        alert(data.message);
       }
     }).finally(() => setLoading(false));
   }
@@ -96,6 +98,8 @@ function App() {
         setIsAuth(true);
         getIp();
         navigate(TABLE_ROUTE);
+      } else  {
+        alert(data.message);
       }
     }).finally(() => setLoading(false));
   }

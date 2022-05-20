@@ -16,6 +16,8 @@ const Registration = ({ registration }) => {
 
   return (
     <div className="registration-container">
+      <h1 className="registration-container__title">Регестрация</h1>
+
       <form className="registration__form registration-form" onSubmit={formik.handleSubmit}>
         <label className="registration-form__label" htmlFor="firstName">Имя:</label>
         <input className="registration-form__input"

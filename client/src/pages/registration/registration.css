@@ -2,6 +2,12 @@
 
 }
 
+.registration-container__title {
+  margin: 10px;
+
+  text-align: center;
+}
+
 .registration__form {
   margin: 50px auto;
 }

@@ -16,6 +16,8 @@ const Auth = ({ login }) => {
 
   return (
     <div className="auth-container">
+      <h1 className="auth-container__title">Авторизация</h1>
+
       <form className="auth__form auth-form" onSubmit={formik.handleSubmit}>
         <label className="auth-form__label" htmlFor="firstName">Имя:</label>
         <input className="auth-form__input"

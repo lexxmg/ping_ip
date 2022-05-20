@@ -2,6 +2,12 @@
 
 }
 
+.auth-container__title {
+  margin: 10px;
+
+  text-align: center;
+}
+
 .auth__form {
   margin: 50px auto;
 }
