@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { ADMIN_ROUTE, LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
+//import jwt_decode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+import { LOGIN_ROUTE, TABLE_ROUTE } from './utils/consts';
 import AppRouter from './components/AppRouter';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
@@ -19,7 +19,7 @@ function App() {
   const [ip, setIp] = useState([]);
   const [ipVerity, setIpVerity] = useState([]);
   const [sorted, setSorted] = useState('asc');
-  const [ipTest, setipTest] = useState([]);
+  //const [ipTest, setipTest] = useState([]);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -214,6 +214,7 @@ function App() {
       <AppRouter
         getDate={getDate}
         login={login}
+        user={user}
         isAuth={isAuth}
         ip={ip}
         ping={ping}

@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
 import Button from '../../components/UI/Button/Button';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity, getDate}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity, getDate, user}) => {
   const [on, setOn] = useState(false);
   const [cardStatState, setCardStatState] = useState({
     visible: false,
@@ -123,7 +123,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                  <tr
                   className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
                   key={item.id}
-                  onClick={() => editOn(item.id)}
+                  onClick={ user.role !== 'USER' ? () => editOn(item.id) : () => console.log('Нет доступа!')}
                 >
                   <td className="tablr__td"
                     style={getStylePing(item.ping, item.wasActivePing, on)}

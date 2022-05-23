@@ -12,7 +12,7 @@ const AppRouter = ({
   registrationToken, getRegistrationToken,
   registration, sort, sorted, setSorted, setIpApi,
   uploadFile, ping, searchIp, setIpVerity, ipVerity, getDate,
-  getUsers, users, editMode, deleteUser, editUser }) => {
+  getUsers, users, editMode, deleteUser, editUser, user }) => {
 
   return (
     <Routes>
@@ -46,6 +46,7 @@ const AppRouter = ({
           <Table
             ip={ip}
             ping={ping}
+            user={user}
             setIp={setIp}
             setIpApi={setIpApi}
             sort={sort}
