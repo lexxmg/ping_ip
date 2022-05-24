@@ -1,6 +1,7 @@
 *.class
 
 /server/storage/*.*
+sslcert
 
 # Package Files #
 *.jar
