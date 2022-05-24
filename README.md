@@ -1,7 +1,7 @@
 # ping_ip
 
 # Установить
-  curl -sL https://deb.nodesourse.com/setup_12.x | sudo -E bash -
+  curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
   //(замените 12.x предпочитаемым номером версии (если он отличается).)
   sudo apt install nodejs
 
