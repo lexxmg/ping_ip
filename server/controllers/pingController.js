@@ -5,13 +5,6 @@ const path = require('path');
 
 const filePath = path.join(__dirname, '../storage/ip.json');
 
-let ip;
-
-if ( loadData(filePath) ) {
-  ip = JSON.parse( loadData(filePath) );
-} else {
-  ip = [];
-}
 
 const date = new Date();
 const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
@@ -26,7 +19,14 @@ const formDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 class PingController {
   async ping(req, res) {
     try {
+      let ip;
       let result = [];
+
+      if ( loadData(filePath) ) {
+        ip = JSON.parse( loadData(filePath) );
+      } else {
+        ip = [];
+      }
 
       await ip.forEach((item, i) => {
         exec(`ping -c 4 -i 0.2 -W 4 ${item.ip}`, (error, stdout, stderr) => {

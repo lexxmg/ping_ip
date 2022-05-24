@@ -6,13 +6,6 @@ const csvToJson = require('convert-csv-to-json');
 const filePath = path.join(__dirname, '../storage/ip.json');
 const pathCsvFile = path.join(__dirname, '../storage/ip.csv');
 
-let ip;
-
-if ( loadData(filePath) ) {
-  ip = JSON.parse( loadData(filePath) );
-} else {
-  ip = [];
-}
 
 const date = new Date();
 const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
@@ -27,6 +20,8 @@ const formDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 
 class IpController {
   async getIp(req, res) {
+    const ip = getIpStor();
+
     if (req.params.id) {
       res.json( ip.find(item => item.id == req.params.id) );
     } else {
@@ -36,6 +31,8 @@ class IpController {
 
   async editIp(req, res) {
     if (!req.body) return res.sendStatus(400);
+
+    const ip = getIpStor();
 
     const id = req.params.id;
     const sw = req.body.sw;
@@ -102,6 +99,18 @@ function loadData(path) {
     console.error(err)
     return false
   }
+}
+
+function getIpStor() {
+  let ip;
+
+  if ( loadData(filePath) ) {
+    ip = JSON.parse( loadData(filePath) );
+  } else {
+    ip = [];
+  }
+
+  return ip;
 }
 
 module.exports = new IpController;
