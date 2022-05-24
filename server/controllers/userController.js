@@ -33,7 +33,7 @@ class UserController {
       return next(ApiError.badRequest('Не корректный логин или пароль'));
     }
 
-    const users = await getUsersStor();
+    let users = await getUsersStor();
 
     if ( users.find(item => item.user === user) ) {
       return next(ApiError.badRequest('Пользователь существует'));
