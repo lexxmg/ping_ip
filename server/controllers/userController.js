@@ -8,24 +8,12 @@ const config = require('config');
 
 const pathUsers = path.join(__dirname, '../storage/users.json');
 
-let users;
-
-(async function() {
-  if ( loadData(pathUsers) ) {
-    users = JSON.parse( loadData(pathUsers) );
-  } else {
-    const nashPassword = await bcrypt.hash('1234', 4);
-
-    users = [{id: 1, user: 'admin', nashPassword: nashPassword, role: 'ADMIN'}];
-  }
-}());
-
 
 class UserController {
   async registration(req, res, next) {
     try {
       const {key} = req.query;
-      
+
       const decoded = jwt.verify(key, config.get('SECRET_KEY'));
 
       if (!key) {
@@ -44,6 +32,8 @@ class UserController {
     if (!user || !password) {
       return next(ApiError.badRequest('Не корректный логин или пароль'));
     }
+
+    const users = await getUsersStor();
 
     if ( users.find(item => item.user === user) ) {
       return next(ApiError.badRequest('Пользователь существует'));
@@ -67,7 +57,9 @@ class UserController {
     res.json({token});
   }
 
-  login(req, res, next) {
+  async login(req, res, next) {
+    const users = await getUsersStor();
+
     const {user, password} = req.body;
 
     const currentUser = users.find(item => item.user === user);
@@ -94,7 +86,9 @@ class UserController {
     res.json({token});
   }
 
-  getUser(req, res) {
+  async getUser(req, res) {
+    const users = await getUsersStor();
+
     const temovePassUser = users.map(user => {
       return {id: user.id, user: user.user, role: user.role}
     });
@@ -102,6 +96,8 @@ class UserController {
   }
 
   async editUser(req, res) {
+    const users = await getUsersStor();
+
     const {id, password, role} = req.body;
 
     if (password === '') {
@@ -126,7 +122,9 @@ class UserController {
     res.json({message: 'success'});
   }
 
-  deleteUser(req, res) {
+  async deleteUser(req, res) {
+    const users = await getUsersStor();
+
     const id = req.params.id;
 
     const newArray = users.filter(item => {
@@ -165,6 +163,20 @@ function loadData(path) {
     console.error(err)
     return false
   }
+}
+
+async function getUsersStor() {
+  let users;
+
+  if ( loadData(pathUsers) ) {
+    users = JSON.parse( loadData(pathUsers) );
+  } else {
+    const nashPassword = await bcrypt.hash('1234', 4);
+
+    users = [{id: 1, user: 'admin', nashPassword: nashPassword, role: 'ADMIN'}];
+  }
+
+  return users;
 }
 
 module.exports = new UserController;
