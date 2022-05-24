@@ -5,20 +5,11 @@ const path = require('path');
 
 const filePath = path.join(__dirname, '../storage/ip.json');
 
-
-const date = new Date();
-const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
-const month = (date.getMonth() >= 9) ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
-const year = date.getFullYear();
-const hours = (date.getHours() >= 10) ? date.getHours() : '0' + date.getHours();
-const minutes = (date.getMinutes() >= 10) ? date.getMinutes() : '0' + date.getMinutes();
-const seconds = (date.getSeconds() >= 10) ? date.getSeconds() : '0' + date.getSeconds();
-
-const formDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-
 class PingController {
   async ping(req, res) {
     try {
+      const formDate = getDate();
+
       let ip;
       let result = [];
 
@@ -77,6 +68,18 @@ function loadData(path) {
     console.error(err)
     return false
   }
+}
+
+function getDate() {
+  const date = new Date();
+  const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
+  const month = (date.getMonth() >= 9) ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+  const year = date.getFullYear();
+  const hours = (date.getHours() >= 10) ? date.getHours() : '0' + date.getHours();
+  const minutes = (date.getMinutes() >= 10) ? date.getMinutes() : '0' + date.getMinutes();
+  const seconds = (date.getSeconds() >= 10) ? date.getSeconds() : '0' + date.getSeconds();
+
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 }
 
 module.exports = new PingController;
