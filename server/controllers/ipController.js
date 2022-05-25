@@ -6,18 +6,6 @@ const csvToJson = require('convert-csv-to-json');
 const filePath = path.join(__dirname, '../storage/ip.json');
 const pathCsvFile = path.join(__dirname, '../storage/ip.csv');
 
-
-const date = new Date();
-const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
-const month = (date.getMonth() >= 9) ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
-const year = date.getFullYear();
-const hours = (date.getHours() >= 10) ? date.getHours() : '0' + date.getHours();
-const minutes = (date.getMinutes() >= 10) ? date.getMinutes() : '0' + date.getMinutes();
-const seconds = (date.getSeconds() >= 10) ? date.getSeconds() : '0' + date.getSeconds();
-
-const formDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-
-
 class IpController {
   async getIp(req, res) {
     const ip = getIpStor();
@@ -31,6 +19,8 @@ class IpController {
 
   async editIp(req, res) {
     if (!req.body) return res.sendStatus(400);
+
+    const formDate = getDate();
 
     const ip = getIpStor();
 
@@ -111,6 +101,18 @@ function getIpStor() {
   }
 
   return ip;
+}
+
+function getDate() {
+  const date = new Date();
+  const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
+  const month = (date.getMonth() >= 9) ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+  const year = date.getFullYear();
+  const hours = (date.getHours() >= 10) ? date.getHours() : '0' + date.getHours();
+  const minutes = (date.getMinutes() >= 10) ? date.getMinutes() : '0' + date.getMinutes();
+  const seconds = (date.getSeconds() >= 10) ? date.getSeconds() : '0' + date.getSeconds();
+
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 }
 
 module.exports = new IpController;
