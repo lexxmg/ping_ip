@@ -1,7 +1,9 @@
 .table__container {
-  overflow: auto;
-
+  max-width: 1415px;
   height: 100vh;
+
+  margin: 0 auto;
+  padding: 0 50px;
 }
 
 .tible__top {
@@ -9,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
 
-  width: 1380px;
+  width: 100%;
 
   margin: 0 auto;
   padding: 5px 0 0 0;
@@ -39,7 +41,7 @@
 }
 
 .table {
-  width: 1380px;
+  width: 100%;
 
   margin: 10px auto;
 
@@ -51,6 +53,8 @@
 }
 
 .tablr__th {
+  padding: 3px 15px;
+
   border: 1px solid black;
 }
 
@@ -171,6 +175,10 @@
 
 .tablr__td--speed {
    width: 85px;
+}
+
+.tablr__td--on-off {
+   width: 108px;
 }
 
 .circle {

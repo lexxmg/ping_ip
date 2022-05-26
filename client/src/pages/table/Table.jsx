@@ -5,7 +5,9 @@ import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
 import Button from '../../components/UI/Button/Button';
 
-const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, setIpVerity, ipVerity, getDate, user}) => {
+const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
+  searchIp, setIpVerity, ipVerity, getDate, user, editOff
+}) => {
   const [on, setOn] = useState(false);
   const [cardStatState, setCardStatState] = useState({
     visible: false,
@@ -40,14 +42,6 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
     setIp(result);
   }
 
-  const editOff = () => {
-    const result = ip.map(item => {
-      return {...item, edit: false}
-    });
-
-    setIp(result);
-  }
-
   const getStylePing = (ping, wasActivePing, on = true) => {
     const bgR = {
       backgroundColor: '#FC4645'
@@ -75,9 +69,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
   //<form className="" id='formTable' onSubmit={formik.handleSubmit}></form>
 
   return (
-    <div className="table__container" onClick={e => {
-      if (e.target.className === 'table__container') editOff();
-    }}>
+    <div className="table__container">
       <div className="tible__top">
         <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
 
@@ -111,6 +103,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                   setIpApi={setIpApi}
                   setIp={setIp}
                   ip={ip}
+                  editOff={editOff}
                   getStylePing={getStylePing}
                   setIpVerity={setIpVerity}
                   ipVerity={ipVerity}
@@ -151,7 +144,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
                   <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
                   <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.name}</td>
                   <td className="tablr__td tablr__td--speed">{item.speed}</td>
-                  <td className="tablr__td">
+                  <td className="tablr__td tablr__td--on-off">
                     <Circle active={item.active} mode="active"></Circle>
                   </td>
                   <td className="tablr__td">
@@ -180,7 +173,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi, searchIp, se
   )
 }
 
-function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, setCardStatState, getDate}) {
+function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, setCardStatState, getDate, editOff}) {
   const formik = useFormik({
     initialValues: {
       id: item.id,
@@ -207,14 +200,20 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, se
       );
 
       setIpApi(item.id, values);
+
+      //console.log('submit');
     }
   });
 
   return (
     <tr
       className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
-      onBlur={() => {
-        formik.handleSubmit();
+      onBlur={() => formik.handleSubmit()}
+      onKeyUp={e => {
+        if (e.keyCode === 27) {
+          //formik.handleSubmit().then(() => console.log(33));
+          editOff();
+        }
       }}
     >
 
@@ -264,7 +263,7 @@ function Tr({ item, setIp, ip, setIpApi, getStylePing, setIpVerity, ipVerity, se
           value={formik.values.speed}
         />
       </td>
-      <td className="tablr__td">
+      <td className="tablr__td tablr__td--on-off">
         <input className="table__input table__input--check"
           form="formTable"
           name="active"

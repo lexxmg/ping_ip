@@ -196,6 +196,16 @@ function App() {
     }).finally(() => setLoading(false));
   }
 
+  const editOff = () => {
+    const result = ip.map(item => {
+      return {...item, edit: false}
+    });
+
+    setIp(result);
+
+    console.log('off');
+  }
+
   function getDate() {
     const date = new Date();
     const day = (date.getDate() >= 10) ? date.getDate() : '0' + date.getDate();
@@ -214,7 +224,11 @@ function App() {
 
 
   return (
-    <div className="">
+    <div className="container" onClick={e => {
+      const current = e.target.className;
+      if (current === 'container' || current === 'table__container') editOff();
+    }}>
+
       {isAuth && <Header user={user} logout={logout}/>}
 
       <AppRouter
@@ -223,6 +237,7 @@ function App() {
         user={user}
         isAuth={isAuth}
         ip={ip}
+        editOff={editOff}
         ping={ping}
         setIp={setIp}
         setIpApi={setIpApi}
