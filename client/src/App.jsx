@@ -173,8 +173,14 @@ function App() {
     setIp(ipVerity.filter(item => {
       const ip = item.ip.toLowerCase().search( search.toLowerCase() );
       const name = item.name.toLowerCase().search( search.toLowerCase() );
+      const sw = item.sw.toLowerCase().search( search.toLowerCase() );
 
-      if ( ip >= 0 || name >= 0 ) {
+      let office = -1;
+      if (item.office) {
+        office = item.office.toLowerCase().search( search.toLowerCase() );
+      }
+
+      if ( ip >= 0 || name >= 0 || sw >= 0 || office >= 0 ) {
         return true;
       }
       return false;
