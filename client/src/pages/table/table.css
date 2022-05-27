@@ -1,9 +1,12 @@
+.table-padding-container {
+  padding: 0 50px;
+}
+
 .table__container {
   max-width: 1415px;
-  height: 100vh;
+  /* height: 100vh; */
 
   margin: 0 auto;
-  padding: 0 50px;
 }
 
 .tible__top {
@@ -14,7 +17,7 @@
   width: 100%;
 
   margin: 0 auto;
-  padding: 5px 0 0 0;
+  padding: 5px 0 10px 0;
 }
 
 .table__btn {
@@ -43,19 +46,31 @@
 .table {
   width: 100%;
 
-  margin: 10px auto;
+  border-spacing: 0px;
+	border-collapse: separate;
 
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
 }
 
 .tablr__thead {
-  background-color: #c6c6c6;
+
+}
+
+.tablr__tr-top {
+   width: 100%;
+
+   padding: 0 0 45px 0;
 }
 
 .tablr__th {
+  /* position: sticky;
+  top: 45px; */
+
   padding: 3px 15px;
 
   border: 1px solid black;
+
+  background-color: #c6c6c6;
 }
 
 .table__tr {
@@ -67,7 +82,7 @@
 }
 
 .tablr__td {
-  border: 1px solid black;
+  border: .5px solid black;
 }
 
 .table__input {
@@ -79,6 +94,8 @@
   padding: 0;
 
   border: none;
+
+  background-color: #73c0ff;
 }
 
 .card-stat {
@@ -193,4 +210,26 @@
 
   border: 1px solid transparent;
   border-radius: 50%;
+}
+
+.table__container--is-fixed {
+
+}
+
+.tible__top--is-fixed {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: #f9f9f9;
+}
+
+.tablr__thead--is-fixed {
+  /* position: fixed;
+  top: 0;
+
+  max-width: 1415px;
+  width: 100%; */
+ position: sticky;
+ top: 0;
 }

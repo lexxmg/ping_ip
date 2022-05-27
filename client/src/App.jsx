@@ -202,8 +202,6 @@ function App() {
     });
 
     setIp(result);
-
-    console.log('off');
   }
 
   function getDate() {
@@ -226,7 +224,8 @@ function App() {
   return (
     <div className="container" onClick={e => {
       const current = e.target.className;
-      if (current === 'container' || current === 'table__container') editOff();
+
+      if (current === 'table-padding-container') editOff();
     }}>
 
       {isAuth && <Header user={user} logout={logout}/>}

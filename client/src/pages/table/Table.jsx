@@ -69,106 +69,114 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
   //<form className="" id='formTable' onSubmit={formik.handleSubmit}></form>
 
   return (
-    <div className="table__container">
-      <div className="tible__top">
-        <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
+    <div className="table-padding-container">
+      <div className="table__container table__container--is-fixed">
 
-        <input className="table__search" type="text" placeholder="Поиск" onChange={e => searchIp(e.target.value)} />
 
-        <Button className="table__btn" onClick={ping}>ping</Button>
+        <table className="table">
+          <thead className="tablr__thead tablr__thead--is-fixed">
+            <tr className="tablr__tr">
+              <td className="tablr__tr-top" colSpan="8">
+                <div className="tible__top tible__top--is-fixed">
+                  <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
+
+                  <input className="table__search" type="text" placeholder="Поиск" onChange={e => searchIp(e.target.value)} />
+
+                  <Button className="table__btn" onClick={ping}>ping</Button>
+                </div>
+              </td>
+            </tr>
+
+            <tr className="tablr__tr">
+              <th className="tablr__th" onClick={() => {toggleSort('id')}}>ip</th>
+              <th className="tablr__th" onClick={() => {toggleSort('sw')}}>Свитч</th>
+              <th className="tablr__th">Порт</th>
+              <th className="tablr__th">Комната</th>
+              <th className="tablr__th" onClick={() => {toggleSort('name')}}>Пользователь</th>
+              <th className="tablr__th" onClick={() => {toggleSort('speed')}}>Скорость</th>
+              <th className="tablr__th">Вкл/выкл</th>
+              <th className="tablr__th" onClick={() => {toggleSort('wasActivePing')}}>ping</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {
+            ip.map(item => {
+              if (item.edit) {
+                return (
+                  <Tr
+                    key={item.id}
+                    item={{...item}}
+                    setIpApi={setIpApi}
+                    setIp={setIp}
+                    ip={ip}
+                    editOff={editOff}
+                    getStylePing={getStylePing}
+                    setIpVerity={setIpVerity}
+                    ipVerity={ipVerity}
+                    setCardStatState={setCardStatState}
+                    getDate={getDate}
+                  />
+                )
+              } else {
+                return (
+                   <tr
+                    className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
+                    key={item.id}
+                    onClick={ user.role !== 'USER' ? () => editOn(item.id) : () => console.log('Нет доступа!')}
+                  >
+                    <td className="tablr__td"
+                      style={getStylePing(item.ping, item.wasActivePing, on)}
+                      onMouseEnter={(e) => {
+                        setCardIpState({
+                          visible: true,
+                          event: e,
+                          gateway: item.gateway,
+                          mask: item.mask,
+                          ip: item.ip
+                        })
+                      }}
+                      onMouseLeave={(e) => {
+                        setCardIpState({
+                          visible: false,
+                          event: null,
+                          gateway: '',
+                          mask: '',
+                          ip: ''
+                        })
+                      }}
+                    >{item.ip}</td>
+                    <td className="tablr__td tablr__td--sw" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.sw}</td>
+                    <td className="tablr__td tablr__td--port" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.port}</td>
+                    <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
+                    <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.name}</td>
+                    <td className="tablr__td tablr__td--speed">{item.speed}</td>
+                    <td className="tablr__td tablr__td--on-off">
+                      <Circle active={item.active} mode="active"></Circle>
+                    </td>
+                    <td className="tablr__td">
+                      <Circle
+                        ping={item.ping}
+                        wasActivePing={item.wasActivePing}
+                        getStylePing={getStylePing}
+                        mode="ping"
+                        item={item}
+                        setCardStatState={setCardStatState}
+                        getDate={getDate}
+                      >
+                      </Circle>
+                    </td>
+                  </tr>
+                )
+              }
+            })
+          }
+          </tbody>
+        </table>
+
+        {cardStatState.visible && <CardStat data={{...cardStatState}}></CardStat>}
+        {cardIpState.visible && <CardIp data={{...cardIpState}}></CardIp>}
       </div>
-
-      <table className="table">
-        <thead className="tablr__thead">
-          <tr className="tablr__tr">
-            <th className="tablr__th" onClick={() => {toggleSort('id')}}>ip</th>
-            <th className="tablr__th" onClick={() => {toggleSort('sw')}}>Свитч</th>
-            <th className="tablr__th">Порт</th>
-            <th className="tablr__th">Комната</th>
-            <th className="tablr__th" onClick={() => {toggleSort('name')}}>Пользователь</th>
-            <th className="tablr__th" onClick={() => {toggleSort('speed')}}>Скорость</th>
-            <th className="tablr__th">Вкл/выкл</th>
-            <th className="tablr__th" onClick={() => {toggleSort('wasActivePing')}}>ping</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        {
-          ip.map(item => {
-            if (item.edit) {
-              return (
-                <Tr
-                  key={item.id}
-                  item={{...item}}
-                  setIpApi={setIpApi}
-                  setIp={setIp}
-                  ip={ip}
-                  editOff={editOff}
-                  getStylePing={getStylePing}
-                  setIpVerity={setIpVerity}
-                  ipVerity={ipVerity}
-                  setCardStatState={setCardStatState}
-                  getDate={getDate}
-                />
-              )
-            } else {
-              return (
-                 <tr
-                  className={item.edit ? 'table__tr table__tr--edit' : 'table__tr'}
-                  key={item.id}
-                  onClick={ user.role !== 'USER' ? () => editOn(item.id) : () => console.log('Нет доступа!')}
-                >
-                  <td className="tablr__td"
-                    style={getStylePing(item.ping, item.wasActivePing, on)}
-                    onMouseEnter={(e) => {
-                      setCardIpState({
-                        visible: true,
-                        event: e,
-                        gateway: item.gateway,
-                        mask: item.mask,
-                        ip: item.ip
-                      })
-                    }}
-                    onMouseLeave={(e) => {
-                      setCardIpState({
-                        visible: false,
-                        event: null,
-                        gateway: '',
-                        mask: '',
-                        ip: ''
-                      })
-                    }}
-                  >{item.ip}</td>
-                  <td className="tablr__td tablr__td--sw" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.sw}</td>
-                  <td className="tablr__td tablr__td--port" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.port}</td>
-                  <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
-                  <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.name}</td>
-                  <td className="tablr__td tablr__td--speed">{item.speed}</td>
-                  <td className="tablr__td tablr__td--on-off">
-                    <Circle active={item.active} mode="active"></Circle>
-                  </td>
-                  <td className="tablr__td">
-                    <Circle
-                      ping={item.ping}
-                      wasActivePing={item.wasActivePing}
-                      getStylePing={getStylePing}
-                      mode="ping"
-                      item={item}
-                      setCardStatState={setCardStatState}
-                      getDate={getDate}
-                    >
-                    </Circle>
-                  </td>
-                </tr>
-              )
-            }
-          })
-        }
-        </tbody>
-      </table>
-
-      {cardStatState.visible && <CardStat data={{...cardStatState}}></CardStat>}
-      {cardIpState.visible && <CardIp data={{...cardIpState}}></CardIp>}
     </div>
   )
 }
