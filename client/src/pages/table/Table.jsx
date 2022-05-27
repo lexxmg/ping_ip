@@ -88,14 +88,14 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
             </tr>
 
             <tr className="tablr__tr">
-              <th className="tablr__th" onClick={() => {toggleSort('id')}}>ip</th>
-              <th className="tablr__th" onClick={() => {toggleSort('sw')}}>Свитч</th>
+              <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('id')}}>ip</th>
+              <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('sw')}}>Свитч</th>
               <th className="tablr__th">Порт</th>
               <th className="tablr__th">Комната</th>
-              <th className="tablr__th" onClick={() => {toggleSort('name')}}>Пользователь</th>
-              <th className="tablr__th" onClick={() => {toggleSort('speed')}}>Скорость</th>
+              <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('name')}}>Пользователь</th>
+              <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('speed')}}>Скорость</th>
               <th className="tablr__th">Вкл/выкл</th>
-              <th className="tablr__th" onClick={() => {toggleSort('wasActivePing')}}>ping</th>
+              <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('wasActivePing')}}>ping</th>
             </tr>
           </thead>
 
