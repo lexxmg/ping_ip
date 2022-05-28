@@ -1,8 +1,8 @@
 
-import classes from './uiButton.module.css';
+import classes from './uiUpButton.module.css';
 import React, {useState} from 'react';
 
-const Button = ({children, className, ...props}) => {
+const UpButton = ({children, className, ...props}) => {
   return (
     <button {...props} className={`${classes.btn} ${className}`}>
       {children}
@@ -10,4 +10,4 @@ const Button = ({children, className, ...props}) => {
   )
 }
 
-export default Button;
+export default UpButton;

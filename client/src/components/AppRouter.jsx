@@ -12,7 +12,8 @@ const AppRouter = ({
   registrationToken, getRegistrationToken,
   registration, sort, sorted, setSorted, setIpApi,
   uploadFile, ping, searchIp, setIpVerity, ipVerity, getDate,
-  getUsers, users, editMode, deleteUser, editUser, user, editOff }) => {
+  getUsers, users, editMode, deleteUser, editUser, user, editOff, currentScroll,
+  setCurrentScrol }) => {
 
   return (
     <Routes>
@@ -57,6 +58,8 @@ const AppRouter = ({
             ipVerity={ipVerity}
             setIpVerity={setIpVerity}
             getDate={getDate}
+            currentScroll={currentScroll}
+            setCurrentScrol={setCurrentScrol}
           />} exact/>}
 
       <Route path="*" element={<Navigate to={isAuth ? TABLE_ROUTE : LOGIN_ROUTE} />} />

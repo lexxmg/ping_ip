@@ -1,0 +1,36 @@
+.btn {
+  position: fixed;
+  right: 1.5%;
+  bottom: 50px;
+  z-index: 1000;
+
+  display: block;
+
+  width: 50px;
+  height: 50px;
+
+  padding: 0;
+
+  border: 1px solid gray;
+  border-radius: 50px;
+
+  background: none;
+
+  cursor: pointer;
+
+  color: gray;
+
+  font-size: 25px;
+
+  transform: rotate(180deg);
+
+  transition: color .15s, background-color .15s;
+}
+
+.btn:hover {
+  background-color: #22BC29;
+
+  color: white;
+
+  transition: color .15s, background-color .15s;
+}

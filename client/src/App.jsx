@@ -19,6 +19,7 @@ function App() {
   const [ip, setIp] = useState([]);
   const [ipVerity, setIpVerity] = useState([]);
   const [sorted, setSorted] = useState('asc');
+  const [currentScroll, setCurrentScrol] = useState(0);
   //const [ipTest, setipTest] = useState([]);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
@@ -255,6 +256,8 @@ function App() {
         editMode={editMode}
         deleteUser={deleteUser}
         editUser={editUser}
+        currentScroll={currentScroll}
+        setCurrentScrol={setCurrentScrol}
       />
     </div>
   );

@@ -1,13 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import './table.css';
 import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
 import Button from '../../components/UI/Button/Button';
+import UpButton from '../../components/UI/UpButton/UpButton';
 
 const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
-  searchIp, setIpVerity, ipVerity, getDate, user, editOff
+  searchIp, setIpVerity, ipVerity, getDate, user, editOff, currentScroll,
+  setCurrentScrol
 }) => {
+  const [up, setUp] = useState(true);
   const [on, setOn] = useState(false);
   const [cardStatState, setCardStatState] = useState({
     visible: false,
@@ -24,6 +27,14 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
     mask: '',
     ip: ''
   });
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, currentScroll);
+
+    return () => {
+      setCurrentScrol(window.scrollY);
+    }
+  }, []);
 
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
@@ -70,6 +81,8 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
 
   return (
     <div className="table-padding-container">
+      {up && <UpButton onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}>v</UpButton>}
+
       <div className="table__container table__container--is-fixed">
 
 
