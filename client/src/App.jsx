@@ -60,7 +60,6 @@ function App() {
     if (user.role === 'ADMIN') {
       getUsersApi().then(data => {
         if (!data.message) {
-          console.log(data);
           setUsers(data);
           return;
         }

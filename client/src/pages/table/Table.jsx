@@ -10,7 +10,6 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
   searchIp, setIpVerity, ipVerity, getDate, user, editOff, currentScroll,
   setCurrentScrol
 }) => {
-  const [up, setUp] = useState(true);
   const [on, setOn] = useState(false);
   const [cardStatState, setCardStatState] = useState({
     visible: false,
@@ -34,7 +33,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
     return () => {
       setCurrentScrol(window.scrollY);
     }
-  }, []);
+  }, [currentScroll, setCurrentScrol]);
 
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
@@ -66,10 +65,6 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
       backgroundColor: '#fedb25'
     }
 
-    const bg = {
-      backgroundColor: 'white'
-    }
-
     if (on) {
       return ping ? bgG : (wasActivePing && !ping) ? bgY : bgR;
     }
@@ -81,7 +76,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
 
   return (
     <div className="table-padding-container">
-      {up && <UpButton onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}>v</UpButton>}
+      <UpButton onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}></UpButton>
 
       <div className="table__container table__container--is-fixed">
 
