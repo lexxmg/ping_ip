@@ -1,5 +1,5 @@
 .table-padding-container {
-  padding: 0 50px;
+  padding: 0 50px 100px;
 }
 
 .table__container {
@@ -29,6 +29,31 @@
 
 .table__checkbox {
 
+}
+
+.table__search-container {
+
+}
+
+.table-search-container {
+  position: relative;
+}
+
+.table-search-container__reset {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 300;
+
+  display: block;
+
+  border: 0px solid black;
+
+  background: none;
+
+  outline: none;
+
+  cursor: pointer;
 }
 
 .table__search {

@@ -1,5 +1,5 @@
 
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import './table.css';
 import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
@@ -11,6 +11,8 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
   setCurrentScrol
 }) => {
   const [on, setOn] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
   const [cardStatState, setCardStatState] = useState({
     visible: false,
     event: null,
@@ -27,8 +29,20 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
     ip: ''
   });
 
+  const search = (value) => {
+    searchIp(value);
+    setSearchValue(value);
+  }
+
+  const resetSearch = () => {
+    searchIp('');
+    setSearchValue('');
+  }
+
   useLayoutEffect(() => {
     window.scrollTo(0, currentScroll);
+
+    resetSearch();
 
     return () => {
       setCurrentScrol(window.scrollY);
@@ -88,7 +102,11 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
                 <div className="tible__top tible__top--is-fixed">
                   <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
 
-                  <input className="table__search" type="text" placeholder="Поиск" onChange={e => searchIp(e.target.value)} />
+                  <div className="table__search-container table-search-container">
+                    {searchValue && <button className="table-search-container__reset" onClick={resetSearch} aria-label="сброс">x</button>}
+
+                    <input className="table__search" type="text" placeholder="Поиск" value={searchValue} onChange={e => search(e.target.value)} />
+                  </div>
 
                   <Button className="table__btn" onClick={ping}>ping</Button>
                 </div>
