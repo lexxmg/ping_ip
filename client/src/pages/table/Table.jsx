@@ -80,7 +80,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
     }
 
     if (on) {
-      return ping ? bgG : (wasActivePing && !ping) ? bgY : bgR;
+      return ping ? bgG : (wasActivePing && !ping) ? bgR : bgY;
     }
 
     return {backgroundColor: ''}
