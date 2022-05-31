@@ -41,19 +41,81 @@
 
 .table-search-container__reset {
   position: absolute;
-  top: 3px;
+  top: calc(50% - 10px);
   right: 3px;
   z-index: 300;
 
   display: block;
 
-  border: 0px solid black;
+  width: 20px;
+  height: 20px;
+
+  border: none;
 
   background: none;
 
   outline: none;
 
   cursor: pointer;
+
+  visibility: hidden;
+  opacity: 0;
+
+  transform: translate(-200px);
+}
+
+.table-search-container__reset::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+
+  width: 2px;
+  height: 100%;
+
+  background-color: #333;
+
+  transform: rotate(0);
+
+  transition: transform .6s;
+}
+
+.table-search-container__reset::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+
+  width: 2px;
+  height: 100%;
+
+  background-color: #333;
+
+  transform: rotate(0);
+
+  transition: transform .5s;
+}
+
+.table-search-container__reset--active {
+  visibility: visible;
+
+  opacity: 1;
+
+  transform: translate(0);
+
+  transition: opacity .2s, transform .7s;
+}
+
+.table-search-container__reset--active::before {
+  transform: rotate(-45deg);
+
+  transition: transform 1s;
+}
+
+.table-search-container__reset--active::after {
+  transform: rotate(45deg);
+
+  transition: transform 1s;
 }
 
 .table__search {
@@ -204,6 +266,12 @@
 
 .tablr__td--sw {
   width: 65px;
+
+  cursor: pointer;
+}
+
+.tablr__td--sw:hover {
+  background-color: #d7d7d7  !important;
 }
 
 .tablr__td--port {

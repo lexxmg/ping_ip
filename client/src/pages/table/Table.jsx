@@ -1,5 +1,5 @@
 
-import React, { useState, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import './table.css';
 import { useFormik } from 'formik';
 import CheckBox from '../../components/UI/CheckBox/CheckBox';
@@ -48,6 +48,15 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
       setCurrentScrol(window.scrollY);
     }
   }, [currentScroll, setCurrentScrol]);
+
+  const contextMenu = (e) => {
+    e.preventDefault();
+
+    const text = e.target.innerText;
+
+    setSearchValue(text);
+    searchIp(text);
+  }
 
   const toggleSort = (name) => {
     setSorted((sorted === 'asc') ? 'desc' : 'asc');
@@ -103,7 +112,14 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
                   <CheckBox className="table__checkbox" onChange={(e) => setOn(e.target.checked)}></CheckBox>
 
                   <div className="table__search-container table-search-container">
-                    {searchValue && <button className="table-search-container__reset" onClick={resetSearch} aria-label="сброс">x</button>}
+                    <button
+                      className={
+                        searchValue
+                        ? "table-search-container__reset table-search-container__reset--active"
+                        : "table-search-container__reset"
+                      } 
+                      onClick={resetSearch} aria-label="сброс">
+                    </button>
 
                     <input className="table__search" type="text" placeholder="Поиск" value={searchValue} onChange={e => search(e.target.value)} />
                   </div>
@@ -172,7 +188,11 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
                         })
                       }}
                     >{item.ip}</td>
-                    <td className="tablr__td tablr__td--sw" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.sw}</td>
+                    <td className="tablr__td tablr__td--sw"
+                      style={getStylePing(item.ping, item.wasActivePing, on)}
+                      onContextMenu={contextMenu}
+                    >{item.sw}
+                    </td>
                     <td className="tablr__td tablr__td--port" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.port}</td>
                     <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
                     <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.name}</td>
