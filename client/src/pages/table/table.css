@@ -41,14 +41,14 @@
 
 .table-search-container__reset {
   position: absolute;
-  top: calc(50% - 10px);
-  right: 3px;
+  top: calc(50% - 18px / 2);
+  right: 5px;
   z-index: 300;
 
   display: block;
 
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 
   border: none;
 
@@ -68,9 +68,9 @@
   content: "";
   position: absolute;
   top: 0;
-  left: calc(50% - 1px);
+  left: calc(50% - 0.5px);
 
-  width: 2px;
+  width: 1px;
   height: 100%;
 
   background-color: #333;
@@ -84,9 +84,9 @@
   content: "";
   position: absolute;
   top: 0;
-  left: calc(50% - 1px);
+  left: calc(50% - 0.5px);
 
-  width: 2px;
+  width: 1px;
   height: 100%;
 
   background-color: #333;
