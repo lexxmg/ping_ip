@@ -117,7 +117,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
                         searchValue
                         ? "table-search-container__reset table-search-container__reset--active"
                         : "table-search-container__reset"
-                      } 
+                      }
                       onClick={resetSearch} aria-label="сброс">
                     </button>
 
@@ -132,7 +132,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
             <tr className="tablr__tr">
               <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('id')}}>ip</th>
               <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('sw')}}>Свитч</th>
-              <th className="tablr__th">Порт</th>
+              <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('port')}}>Порт</th>
               <th className="tablr__th">Комната</th>
               <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('name')}}>Пользователь</th>
               <th className={sorted === 'asc' ? 'tablr__th tablr__th--arrow tablr__th--arrow-down' : 'tablr__th tablr__th--arrow'} onClick={() => {toggleSort('speed')}}>Скорость</th>
@@ -193,7 +193,11 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
                       onContextMenu={contextMenu}
                     >{item.sw}
                     </td>
-                    <td className="tablr__td tablr__td--port" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.port}</td>
+                    <td
+                      className="tablr__td tablr__td--port"
+                      style={getStylePing(item.ping, item.wasActivePing, on)}
+                    >{(item.port === 0 || item.port === null) ? '' : item.port}
+                    </td>
                     <td className="tablr__td tablr__td--office" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.office}</td>
                     <td className="tablr__td" style={getStylePing(item.ping, item.wasActivePing, on)}>{item.name}</td>
                     <td className="tablr__td tablr__td--speed">{item.speed}</td>

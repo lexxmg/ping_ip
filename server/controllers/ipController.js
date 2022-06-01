@@ -24,9 +24,15 @@ class IpController {
 
     const ip = getIpStor();
 
+    let port = null;
+
+    if (req.body.port) {
+      port = +req.body.port;
+    }
+
     const id = req.params.id;
     const sw = req.body.sw;
-    const port = req.body.port || null;
+    //const port = req.body.port || null;
     const speed = req.body.speed || '100-kb/s';
     const office = req.body.office || null;
     const name = req.body.name;
@@ -34,7 +40,11 @@ class IpController {
 
     const ipNew = ip.map(item => {
       if (item.id == id) {
-        return {...item, sw: sw, port, speed, office, name, active, manager: req.user.user, dateEdit: formDate}
+        return {...item, sw: sw, port, speed, office, name, active,
+          wasActivePing: false,
+          wasActiveDate: null,
+          manager: req.user.user, dateEdit: formDate
+        }
       }
 
       return item;
@@ -51,7 +61,11 @@ class IpController {
       //await csvToJson.generateJsonFileFromCsv(pathCsvFile, filePath);
 
       const newArr = csvToJson.getJsonFromCsv(pathCsvFile).map((item, i) => {
-        if (item.port === 'null') item.port = null;
+        if (item.port === 'null') {
+          item.port = null;
+        } else {
+          item.port = +item.port;
+        }
         if (item.office === 'null') item.office = null;
         if (item.active === 'false') item.active = false;
         if (item.active === 'true') item.active = true;
