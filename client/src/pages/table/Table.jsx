@@ -10,6 +10,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
   searchIp, setIpVerity, ipVerity, getDate, user, editOff, currentScroll,
   setCurrentScrol
 }) => {
+  const [searchScroll, setSearchScroll] = useState(0);
   const [on, setOn] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
@@ -35,7 +36,10 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
   }
 
   const resetSearch = () => {
-    searchIp('');
+    searchIp('').then(() => {
+      //window.scrollTo(0, searchScroll);
+    });
+
     setSearchValue('');
   }
 
@@ -46,11 +50,14 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
 
     return () => {
       setCurrentScrol(window.scrollY);
+      setSearchScroll(window.scrollY);
     }
   }, [currentScroll, setCurrentScrol]);
 
   const contextMenu = (e) => {
     e.preventDefault();
+
+    setSearchScroll(window.scrollY);
 
     const text = e.target.innerText;
 

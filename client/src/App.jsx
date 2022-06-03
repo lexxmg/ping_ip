@@ -169,8 +169,8 @@ function App() {
     setIp(sortIp);
   }
 
-  function searchIp(search) {
-    setIp(ipVerity.filter(item => {
+  async function searchIp(search) {
+    await setIp(ipVerity.filter(item => {
       const ip = item.ip.toLowerCase().search( search.toLowerCase() );
       const name = item.name.toLowerCase().search( search.toLowerCase() );
       const sw = item.sw.toLowerCase().search( search.toLowerCase() );
@@ -185,6 +185,8 @@ function App() {
       }
       return false;
     }));
+
+    return;
   }
 
   function uploadFile(event) {
