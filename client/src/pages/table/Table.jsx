@@ -37,7 +37,11 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
 
   const resetSearch = () => {
     searchIp('').then(() => {
-      //window.scrollTo(0, searchScroll);
+      if (searchScroll === 0) {
+        window.scrollTo(0, currentScroll);
+      } else {
+        window.scrollTo(0, searchScroll);
+      }  
     });
 
     setSearchValue('');
@@ -50,7 +54,6 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
 
     return () => {
       setCurrentScrol(window.scrollY);
-      setSearchScroll(window.scrollY);
     }
   }, [currentScroll, setCurrentScrol]);
 
