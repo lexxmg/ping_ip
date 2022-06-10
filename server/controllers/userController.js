@@ -143,7 +143,7 @@ function generateJwt(id, user, role = 'USER') {
     },
       config.get('SECRET_KEY'),
     {
-      expiresIn: '24h'
+      expiresIn: '30 days'
     }
   );
 }
