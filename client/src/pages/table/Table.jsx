@@ -41,7 +41,7 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
         window.scrollTo(0, currentScroll);
       } else {
         window.scrollTo(0, searchScroll);
-      }  
+      }
     });
 
     setSearchValue('');
@@ -87,11 +87,11 @@ const Table = ({ip, setIp, ping, sort, sorted, setSorted, setIpApi,
 
   const getStylePing = (ping, wasActivePing, on = true) => {
     const bgR = {
-      backgroundColor: '#FC4645'
+      backgroundColor: '#FC625D'
     }
 
     const bgG = {
-      backgroundColor: '#22BC29'
+      backgroundColor: '#35CC4B'
     }
 
     const bgY = {
